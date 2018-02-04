@@ -31,11 +31,6 @@ Python
 JavaScript
 HTML	&	CSS	(Maybe	CSS	grid)
 
-# What	I	will	learn
-
-I’ve	a	small	amount	of	experience	using	Django and	Python,	so	I’m	hoping	to	increase	my
-knowledge	in	those	areas.
-
 # User	Stories
 
 As	an	instructor,	I	can	check	out	my	students	quickly	and	safely.
