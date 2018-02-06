@@ -7,6 +7,7 @@ class Roster(Model.db):
 
 
     def __init__(self,course_Name):
+        self.course_Name = course_Name
 
 class Student(Model.db):
     id = db.Column(db.Integer, primary_key=True)
