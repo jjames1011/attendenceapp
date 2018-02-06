@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{{% title %}}</title>
+  <title>{{ title }}</title>
 </head>
 
 <body>
-  <h1>Click on a class:</h1> {%for roster in rosters %}
+  <h1>Click on a class:</h1> {% for roster in rosters %}
   <a href='#'>
-    <p>{% roster.course_Name%}</p>
+    <p>{{ roster.course_Name }}</p>
   </a>
   {% endfor %}
 
