@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>{{ title }}</title>
-</head>
-
-<body>
-  <h1>Click on a class:</h1> {% for roster in rosters %}
-  <a href='#'>
-    <p>{{ roster.course_Name }}</p>
-  </a>
-  {% endfor %}
-
-</body>
-
-</html>
+{% extends "base.html" %} {% block content %}
+<h1>Click on a class:</h1> {% if rosters %} {% for roster in rosters %}
+<a href='#'>
+  <p>{{ roster.course_Name }}</p>
+</a>
+{% endfor %} {% else %}
+<h3>Sorry there are no rosters, create a new one <a href='#'>here!</a></h3> {% endif %} {% endblock %}
