@@ -3,8 +3,10 @@ from app import db
 class Roster(Model.db):
     id = db.Column(db.Integer, primary_key=True)
     course_Name = db.Column(db.String(80))
-    students = db.Column(db.Integer, ForeignKey='student.id')
-    relationship = db.relationship(Roster_Student_Relationship, backref='roster')
+    students = db.relationship('Roster_Student_Relationship', backref='roster')
+
+
+    def __init__(self,course_Name):
 
 class Student(Model.db):
     id = db.Column(db.Integer, primary_key=True)
