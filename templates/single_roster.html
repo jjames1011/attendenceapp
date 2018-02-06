@@ -1,0 +1,4 @@
+{% extends "base.html" %} {% block content%} {% if students %} {% for student in students %}
+<p>student.name</p>
+{% endfor %} {% else %}
+<h1>No students have been added to this roster</h1>{% endif %} {% endblock %}

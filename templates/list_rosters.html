@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <h1>Click on a class:</h1> {% if rosters %} {% for roster in rosters %}
-<a href='#'>
+<a href='/single_roster?roster_id={{roster.id}}'>
   <p>{{ roster.course_Name }}</p>
 </a>
 {% endfor %} {% else %}
