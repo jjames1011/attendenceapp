@@ -1,6 +1,6 @@
 from flask import request, redirect, render_template, session, flash
 from app import app, db
-# from models import #add models here once created
+from models import Student, Roster, Roster_Student_Relationship
 
 @app.route('/')
 def index():
