@@ -30,7 +30,7 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
-    "material-ui": "0.20.0",
+    "material-ui": "1.0.0-beta.32",
     "object-assign": "4.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
@@ -206,6 +206,7 @@
       "no-underscore-dangle": 0,
       "no-alert": 0,
       "no-lone-blocks": 0,
+      "no-unused-vars": 1,
       "jsx-quotes": 1,
       "react/display-name": [
         1,

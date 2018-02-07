@@ -1,16 +1,28 @@
 // Set up your application entry point here...
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import MyAwesomeReactComponent from './components/MyAwesomeReactComponent';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import Root from './containers/Root';
+import configureStore, { history } from './store/configureStore';
+import './styles.css';
 
-const App = () => (
-    <MuiThemeProvider>
-        <MyAwesomeReactComponent />
-    </MuiThemeProvider>
-);
+const store = configureStore();
 
-ReactDOM.render(
-    <App />,
+render(
+    <AppContainer>
+        <Root store={store} history={history} />
+    </AppContainer>,
     document.getElementById('app')
 );
+
+if (module.hot) {
+    module.hot.accept('./containers/Root', () => {
+        const NewRoot = require('./containers/Root').default;
+        render(
+            <AppContainer>
+                <NewRoot store={store} history={history} />
+            </AppContainer>,
+            document.getElementById('app')
+        );
+    });
+}
