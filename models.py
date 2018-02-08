@@ -6,9 +6,10 @@ class User(db.Model):
     #Parent,Instructor, Moderator, or Admin
     rank = db.Column(db.String(50))
 
-    def __init__(self,username,password):
+    def __init__(self,username,password,rank):
         self.username = username
         self.password = password
+        self.rank = rank
 
 
 class Roster(db.Model):

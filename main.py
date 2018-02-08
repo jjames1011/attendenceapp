@@ -6,6 +6,23 @@ from models import Student, Roster, Roster_Student_Relationship, User
 def index():
     return redirect('/list_rosters')
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    username = request.form['username']
+    password = request.form['password']
+    rank = request.form['rank']
+    new_User = User(username, password, rank)
+    db.session.add(new_User)
+    db.session.commit()
+    #TODO implement Session key to keep track of logged in username
+    #TODO add verification
+    return redirect('/')
+
+@app.route('/login', methods=['POST'])
+def signup():
+    #TODO unfinished
+    return ''
+
 @app.route('/list_rosters')
 def list_rosters():
     rosters = Roster.query.all()
@@ -71,11 +88,6 @@ def single_student():
     output.append(student_data)
 
     return jsonify({'Student': output})
-
-
-
-
-
 
 
 if __name__ == '__main__':
