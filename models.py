@@ -14,11 +14,11 @@ class User(db.Model):
 
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    course_Name = db.Column(db.String(80))
+    course_name = db.Column(db.String(80))
     students = db.relationship('Roster_Student_Relationship', backref='roster')
 
-    def __init__(self,course_Name):
-        self.course_Name = course_Name
+    def __init__(self,course_name):
+        self.course_Name = course_name
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,9 +37,9 @@ class Student(db.Model):
 class Roster_Student_Relationship(db.Model):
     '''This is a table to represent the many-to-many relationship between a roster and a student. '''
     id = db.Column(db.Integer, primary_key=True)
-    roster_Id = db.Column(db.Integer, db.ForeignKey('roster.id'))
-    student_Id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    roster_id = db.Column(db.Integer, db.ForeignKey('roster.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
-    def __init__(self, roster_Id, player_id):
-        self.roster_Id = roster_Id
-        self.player_id = player_Id
+    def __init__(self, roster_id, student_id):
+        self.roster_id = roster_id
+        self.student_id = student_id

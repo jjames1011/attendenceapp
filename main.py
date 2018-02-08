@@ -4,6 +4,7 @@ from models import Student, Roster, Roster_Student_Relationship, User
 
 @app.route('/')
 def index():
+
     return redirect('/list_rosters')
 
 @app.route('/signup', methods=['POST'])
@@ -16,6 +17,7 @@ def signup():
     db.session.commit()
     #TODO implement Session key to keep track of logged in username
     #TODO add verification
+
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
@@ -26,14 +28,13 @@ def login():
     if not user:
         return jsonify({'Login Error:','There is no user with that username'})
     elif user.password == password:
-        welcome_Msg = 'Welcome '+ username
+        welcome_Msg = 'Welcome ' + username
         #TODO implement session keys
         return jsonify({'Message': welcome_Msg})
     else:
         password_Incorrect_Msg = 'Incorrect Password'
+
         return jsonify({'Message': password_Incorrect_Msg})
-
-
 
 @app.route('/list_rosters')
 def list_rosters():
@@ -43,26 +44,30 @@ def list_rosters():
     for roster in rosters:
         roster_data = {}
         roster_data['roster_id'] = roster.id
-        roster_data['name'] = roster.course_Name
+        roster_data['name'] = roster.course_name
         output.append(roster_data)
-    return jsonify({'rosters' : output})
 
+    return jsonify({'rosters' : output})
 
 @app.route('/single_roster')
 def single_roster():
     '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
-    roster_Id = request.args.get('roster_id')
-    roster = Roster.query.filter_by(id=roster_Id).first()
-    students = Roster_Student_Relationship.query.filter_by(roster_Id=roster_Id).all()
-
-    if not students:
-        return jsonify({'Message':'There are no students in the database'})
+    roster_id = request.args.get('roster_id')
+    student_roster_relationships = Roster_Student_Relationship.query.filter_by(roster_id=roster_id).all()
+    if not student_roster_relationships:
+        return jsonify({'Message':'There are no students added in this roster'})
+    students = []
+    for relationship in student_roster_relationships:
+        student = Student.query.filter_by(id=relationship.student_id).first()
+        students.append(student)
     output = []
+
     for student in students:
         student_data = {}
         student_data['student_id'] = student.id
         student_data['student_name'] = student.name
         output.append(student_data)
+
     return jsonify({'students' : output})
 
 @app.route('/add_student', methods=['POST'])
@@ -72,18 +77,17 @@ def add_student():
     new_Student = Student(name, notes)
     db.session.add(new_Student)
     db.session.commit()
+
     return redirect('/student_profile?student_id='+ str(new_Student.id))
 
 @app.route('/add_roster', methods=['POST'])
 def add_roster():
-    course_Name = request.form['course_Name']
-    new_roster = Roster(course_Name)
+    course_name = request.form['course_name']
+    new_roster = Roster(course_name)
     db.session.add(new_roster)
     db.session.commit()
 
     return redirect('/single_roster?roster_id=' + str(new_roster.id))
-
-
 
 @app.route('/student_profile')
 def single_student():
@@ -101,6 +105,15 @@ def single_student():
 
     return jsonify({'Student': output})
 
+@app.route('/add_student_to_roster', methods=['POST'])
+def add_student_to_roster():
+    student_id = request.form['student_id']
+    roster_id = request.form['roster_id']
+    new_relationship = Roster_Student_Relationship(roster_id,student_id)
+    db.session.add(new_relationship)
+    db.session.commit()
+
+    return redirect('/single_roster?roster_id='+str(roster_id))
 
 if __name__ == '__main__':
     app.run()
