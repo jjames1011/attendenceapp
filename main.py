@@ -16,8 +16,8 @@ def index():
     return jsonify({'rosters' : output})
 
 @app.route('/single_roster')
-'''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
 def single_roster():
+    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
     roster_Id = request.args.get('roster_id')
     roster = Roster.query.filter_by(id=roster_Id).first()
     students = Roster_Student_Relationship.query.filter_by(roster_Id=roster_Id).all()
