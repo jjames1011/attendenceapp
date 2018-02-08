@@ -19,9 +19,21 @@ def signup():
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
-def signup():
-    #TODO unfinished
-    return ''
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({'Login Error:','There is no user with that username'})
+    elif user.password == password:
+        welcome_Msg = 'Welcome '+ username
+        #TODO implement session keys
+        return jsonify({'Message': welcome_Msg})
+    else:
+        password_Incorrect_Msg = 'Incorrect Password'
+        return jsonify({'Message': password_Incorrect_Msg})
+
+
 
 @app.route('/list_rosters')
 def list_rosters():
@@ -64,7 +76,7 @@ def add_student():
 
 @app.route('/add_roster', methods=['POST'])
 def add_roster():
-    course_Name= request.form['course_Name']
+    course_Name = request.form['course_Name']
     new_roster = Roster(course_Name)
     db.session.add(new_roster)
     db.session.commit()
