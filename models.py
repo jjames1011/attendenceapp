@@ -5,7 +5,6 @@ class Roster(db.Model):
     course_Name = db.Column(db.String(80))
     students = db.relationship('Roster_Student_Relationship', backref='roster')
 
-
     def __init__(self,course_Name):
         self.course_Name = course_Name
 

@@ -4,9 +4,12 @@ from models import Student, Roster, Roster_Student_Relationship
 
 @app.route('/')
 def index():
+    return redirect('/list_rosters')
+
+@app.route('/list_rosters')
+def list_rosters():
     rosters = Roster.query.all()
     title = 'Rosters:'
-    print(rosters)
     output = []
     for roster in rosters:
         roster_data = {}
@@ -14,6 +17,7 @@ def index():
         roster_data['name'] = roster.course_Name
         output.append(roster_data)
     return jsonify({'rosters' : output})
+
 
 @app.route('/single_roster')
 def single_roster():
@@ -23,7 +27,7 @@ def single_roster():
     students = Roster_Student_Relationship.query.filter_by(roster_Id=roster_Id).all()
 
     if not students:
-        return jsonify({'Message':'There are no students in the db'})
+        return jsonify({'Message':'There are no students in the database'})
     output = []
     for student in students:
         student_data = {}
@@ -31,6 +35,44 @@ def single_roster():
         student_data['student_name'] = student.name
         output.append(student_data)
     return jsonify({'students' : output})
+
+@app.route('/add_student', methods=['POST'])
+def add_student():
+    name = request.form['name']
+    notes = request.form['notes']
+    new_Student = Student(name, notes)
+    db.session.add(new_Student)
+    db.session.commit()
+    return '' #TODO not sure what to return here yet
+
+@app.route('/add_roster', methods=['POST'])
+def add_roster():
+    course_Name= request.form['course_Name']
+    #TODO: Complete this routehandler
+    return ''
+
+
+
+@app.route('/single_student')
+def single_student():
+    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_student?student_id=1'''
+    student_Id = request.args.get('student_id')
+    student = Student.query.filter_by(id=student_Id).first()
+    if not student:
+        return jsonify({'Message': 'There is no student with that ID in the database'})
+    output = []
+    student_data = {}
+    student_data['student_id'] = student.id
+    student_data['student_name'] = student.name
+    student_data['student_notes'] = student.notes
+    output.append(student_data)
+
+    return jsonify({'Student': output})
+
+
+
+
+
 
 
 if __name__ == '__main__':
