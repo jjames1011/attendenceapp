@@ -43,19 +43,22 @@ def add_student():
     new_Student = Student(name, notes)
     db.session.add(new_Student)
     db.session.commit()
-    return '' #TODO not sure what to return here yet
+    return redirect('/student_profile?student_id='+ str(new_Student.id))
 
 @app.route('/add_roster', methods=['POST'])
 def add_roster():
     course_Name= request.form['course_Name']
-    #TODO: Complete this routehandler
-    return ''
+    new_roster = Roster(course_Name)
+    db.session.add(new_roster)
+    db.session.commit()
+
+    return redirect('/single_roster?roster_id=' + str(new_roster.id))
 
 
 
-@app.route('/single_student')
+@app.route('/student_profile')
 def single_student():
-    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_student?student_id=1'''
+    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/student_profile?student_id=1'''
     student_Id = request.args.get('student_id')
     student = Student.query.filter_by(id=student_Id).first()
     if not student:
