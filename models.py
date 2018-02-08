@@ -1,4 +1,15 @@
 from app import db
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30))
+    password = db.Column(db.String(50))
+    #Parent,Instructor, Moderator, or Admin
+    rank = db.Column(db.String(50))
+
+    def __init__(self,username,password):
+        self.username = username
+        self.password = password
+
 
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)

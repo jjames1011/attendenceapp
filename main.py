@@ -1,6 +1,6 @@
 from flask import request, redirect, render_template, session, flash, jsonify
 from app import app, db
-from models import Student, Roster, Roster_Student_Relationship
+from models import Student, Roster, Roster_Student_Relationship, User
 
 @app.route('/')
 def index():
