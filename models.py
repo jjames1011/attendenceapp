@@ -18,7 +18,7 @@ class Roster(db.Model):
     students = db.relationship('Roster_Student_Relationship', backref='roster')
 
     def __init__(self,course_name):
-        self.course_Name = course_name
+        self.course_name = course_name
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
