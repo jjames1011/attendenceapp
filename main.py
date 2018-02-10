@@ -112,6 +112,7 @@ def add_student_to_roster():
     new_relationship = Roster_Student_Relationship(roster_id,student_id)
     db.session.add(new_relationship)
     db.session.commit()
+    #TODO figure out a way to add more than one student to a roster at a time
 
     return redirect('/single_roster?roster_id='+str(roster_id))
 
