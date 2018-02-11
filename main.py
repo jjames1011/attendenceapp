@@ -53,14 +53,20 @@ def list_rosters():
 def single_roster():
     '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
     roster_id = request.args.get('roster_id')
+    roster = Roster.query.filter_by(id=roster_id).first()
     student_roster_relationships = Roster_Student_Relationship.query.filter_by(roster_id=roster_id).all()
+    students = []
+    output = []
+
+    roster_data = {}
+    roster_data['roster_name'] = roster.course_name
+
     if not student_roster_relationships:
         return jsonify({'Message':'There are no students added in this roster'})
-    students = []
+
     for relationship in student_roster_relationships:
         student = Student.query.filter_by(id=relationship.student_id).first()
         students.append(student)
-    output = []
 
     for student in students:
         student_data = {}
@@ -68,7 +74,7 @@ def single_roster():
         student_data['student_name'] = student.name
         output.append(student_data)
 
-    return jsonify({'students' : output})
+    return jsonify({'roster_name': roster_data['roster_name'],'students' : output})
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
