@@ -74,7 +74,10 @@ def single_roster():
     students = []
     output = []
 
+    if not roster:
+        return jsonify({'message': 'There is no roster with that id'})
     roster_data = {}
+
     roster_data['roster_name'] = roster.course_name
 
     if not student_roster_relationships:
