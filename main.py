@@ -44,37 +44,31 @@ def list_rosters():
 @app.route('/list_students')
 def list_students():
     students = Student.query.all()
-    return render_template('list_students.html', students=students, title='All students')
+    return render_template('list_students.html', students=students, title='All students:')
 
 @app.route('/single_roster')
 def single_roster():
-    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
+    '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
     roster_id = request.args.get('roster_id')
     roster = Roster.query.filter_by(id=roster_id).first()
     student_roster_relationships = Roster_Student_Relationship.query.filter_by(roster_id=roster_id).all()
     students = []
-    output = []
+
 
     if not roster:
-        return jsonify({'message': 'There is no roster with that id'})
-    roster_data = {}
+        errorMSG = 'No roster was found with that id'
+        return render_template('single_roster.html', errorMSG=errorMSG)
 
-    roster_data['roster_name'] = roster.course_name
 
     if not student_roster_relationships:
-        return jsonify({'Message':'There are no students added in this roster'})
+        errorMSG = 'No students have been added to this roster'
+        return render_template('single_roster.html', errorMSG=errorMSG)
 
     for relationship in student_roster_relationships:
         student = Student.query.filter_by(id=relationship.student_id).first()
         students.append(student)
 
-    for student in students:
-        student_data = {}
-        student_data['student_id'] = student.id
-        student_data['student_name'] = student.name
-        output.append(student_data)
-
-    return jsonify({'roster_name': roster_data['roster_name'],'students' : output})
+    return render_template('single_roster.html',students=students,roster=roster)
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
