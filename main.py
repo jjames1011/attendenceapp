@@ -69,15 +69,18 @@ def single_roster():
 
     return render_template('single_roster.html',students=students,roster=roster)
 
-@app.route('/add_student', methods=['POST'])
+@app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
-    name = request.form['name']
-    notes = request.form['notes']
-    new_Student = Student(name, notes)
-    db.session.add(new_Student)
-    db.session.commit()
-
-    return redirect('/student_profile?student_id='+ str(new_Student.id))
+    if request.method == 'GET':
+        #TODO: Create add_student.html template and render it here
+        return '<h1>This is where the add student form will be rendered</h1>'
+    else:
+        name = request.form['name']
+        notes = request.form['notes']
+        new_Student = Student(name, notes)
+        db.session.add(new_Student)
+        db.session.commit()
+        return redirect('/student_profile?student_id='+ str(new_Student.id))
 
 @app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
@@ -93,19 +96,14 @@ def add_roster():
 
 @app.route('/student_profile')
 def single_student():
-    '''When making the api request, be sure to add a roster id in the url in a query string eg: localhost:5000/student_profile?student_id=1'''
+    '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/student_profile?student_id=1'''
     student_Id = request.args.get('student_id')
     student = Student.query.filter_by(id=student_Id).first()
     if not student:
-        return jsonify({'Message': 'There is no student with that ID in the database'})
-    output = []
-    student_data = {}
-    student_data['student_id'] = student.id
-    student_data['student_name'] = student.name
-    student_data['student_notes'] = student.notes
-    output.append(student_data)
+        errorMSG = 'There is no student in the database with that id'
+        return render_template('student_profile.html', errorMSG=errorMSG)
 
-    return jsonify({'Student': output})
+    return render_template('student_profile.html', student=student)
 
 @app.route('/add_student_to_roster', methods=['POST'])
 def add_student_to_roster():
