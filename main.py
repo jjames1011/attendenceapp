@@ -39,16 +39,7 @@ def login():
 @app.route('/list_rosters')
 def list_rosters():
     rosters = Roster.query.all()
-    if not rosters:
-        return jsonify({'Message' : 'There are no rosters in the database'})
-    output = []
-    for roster in rosters:
-        roster_data = {}
-        roster_data['id'] = roster.id
-        roster_data['name'] = roster.course_name
-        output.append(roster_data)
-
-    return jsonify({'rosters' : output})
+    return render_template('list_rosters.html',rosters=rosters)
 
 @app.route('/list_students')
 def list_students():
