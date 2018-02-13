@@ -44,17 +44,7 @@ def list_rosters():
 @app.route('/list_students')
 def list_students():
     students = Student.query.all()
-    if not students:
-        return jsonify({'Message' : 'There are no students in the database'})
-    output = []
-    for student in students:
-        student_data= {}
-        student_data['id'] = student.id
-        student_data['name'] = student.name
-        student_data['notes'] = student.notes
-        output.append(student_data)
-
-    return jsonify({'Students' : output})
+    return render_template('list_students.html', students=students, title='All students')
 
 @app.route('/single_roster')
 def single_roster():
