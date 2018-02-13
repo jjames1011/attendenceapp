@@ -57,12 +57,11 @@ def single_roster():
 
     if not roster:
         errorMSG = 'No roster was found with that id'
-        return render_template('single_roster.html', errorMSG=errorMSG)
-
+        return render_template('single_roster.html',errorMSG=errorMSG)
 
     if not student_roster_relationships:
         errorMSG = 'No students have been added to this roster'
-        return render_template('single_roster.html', errorMSG=errorMSG)
+        return render_template('single_roster.html', roster=roster,errorMSG=errorMSG)
 
     for relationship in student_roster_relationships:
         student = Student.query.filter_by(id=relationship.student_id).first()
@@ -80,14 +79,17 @@ def add_student():
 
     return redirect('/student_profile?student_id='+ str(new_Student.id))
 
-@app.route('/add_roster', methods=['POST'])
+@app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
-    course_name = request.form['course_name']
-    new_roster = Roster(course_name)
-    db.session.add(new_roster)
-    db.session.commit()
-
-    return redirect('/single_roster?roster_id=' + str(new_roster.id))
+    if request.method == 'GET':
+        #TODO: Create add_roster.html
+        return '<h1>Here will be a form to add a roster</h1>'
+    else:
+        course_name = request.form['course_name']
+        new_roster = Roster(course_name)
+        db.session.add(new_roster)
+        db.session.commit()
+        return redirect('/single_roster?roster_id=' + str(new_roster.id))
 
 @app.route('/student_profile')
 def single_student():
