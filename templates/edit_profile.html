@@ -5,7 +5,8 @@
 <form action="/update_student?student_id={{student.id}}" method="post">
   Name: <br>
   <input type="text" name="name" value='{{student.name}}' /><br>
-  <label class="error">{{name_error}}</label><br> Notes: <br>
+  <label class="error">{{name_error}}</label> Phone Number: <br>
+  <input type='text' name='phone' value='{{student.phone}}' /><br> Notes: <br>
   <input type='text' name="notes" value='{{student.notes}}' /><br>
 
   <input type="submit" value="submit" />

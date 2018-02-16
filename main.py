@@ -75,6 +75,7 @@ def add_student():
     if request.method == 'POST':
         name = request.form['name']
         notes = request.form['notes']
+        phone = request.form['phone']
 
         name_error = ''
 
@@ -82,7 +83,7 @@ def add_student():
             name_error = "Please enter a student's name."
 
         if not name_error:
-            new_Student = Student(name, notes)
+            new_Student = Student(name, phone, notes)
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
