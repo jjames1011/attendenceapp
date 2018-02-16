@@ -16,7 +16,7 @@ class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(80))
     students = db.relationship('Roster_Student_Relationship', backref='roster')
-    sessions = db.relationship('Session')
+    sessions = db.relationship('Session', backref='roster')
 
     def __init__(self,course_name):
         self.course_name = course_name
@@ -60,17 +60,18 @@ class Session(db.Model):
 
 
 class Attendence(db.Model):
-    session_id = db.Column(db.Integer, db.ForeignKey('session.id'))
-    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    student = db.relationship('Student', backref='attendences')
     checkin_time = db.Column(db.DateTime)
     checkout_time = db.Column(db.DateTime)
 
     __table_args__ = (
-        db.PrimaryKeyConstraint('session_id', 'student_id'),
-        {},
+        db.UniqueConstraint('session_id', 'student_id'),
     )
 
-    def __init__(self, roster_id, student_id):
-        self.roster_id = roster_id
+    def __init__(self, session_id, student_id):
+        self.session_id = session_id
         self.student_id = student_id
     

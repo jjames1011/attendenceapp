@@ -1,6 +1,6 @@
 from flask import request, redirect, render_template, session, flash, jsonify
 from app import app, db
-from models import Student, Roster, Roster_Student_Relationship, User
+from models import *
 
 @app.route('/')
 def index():
@@ -93,6 +93,42 @@ def add_roster():
         db.session.add(new_roster)
         db.session.commit()
         return redirect('/single_roster?roster_id=' + str(new_roster.id))
+
+
+@app.route('/add_session', methods=['POST','GET'])
+def add_session():
+    if request.method == 'GET':
+        return '<h1>Here will be a form to add a session</h1>'
+    else:
+        roster_id = request.form['roster_id']
+        # start = request.form['start']
+        # end = request.form['end']
+        new_session = Session(roster_id, None, None)
+        db.session.add(new_session)
+        db.session.flush()
+
+        roster = Roster.query.filter_by(id=roster_id).first()
+        if not roster:
+            return 'No roster associated with this id'
+
+        for student in roster.students:
+            attendence = Attendence(new_session.id, student.id)
+            db.session.add(attendence)
+
+        db.session.commit()        
+        return redirect('/single_roster?roster_id=' + str(roster_id))
+
+
+@app.route('/single_session')
+def single_session():
+    session_id = request.args.get('session_id')
+    session = Session.query.filter_by(id=session_id).first()
+
+    if not session:
+        return 'No session associated with this id'
+    
+    return jsonify(session.attendences)
+    
 
 @app.route('/student_profile')
 def single_student():
