@@ -1,9 +1,8 @@
 {% extends "base.html" %} {% block content %} {% if rosters %}
 <h1>Click on a class:</h1> {% for roster in rosters %}
 <a href='/single_roster?roster_id={{roster.id}}'>
-    <p>{{ roster.course_name }}</p>
+  <p>{{ roster.course_name }}</p>
 </a>
 {% endfor %}
-<p>Add a New Roster:<button><a href="/add_roster">Add Roster</a></button></p>
-{% else %}
+<a href="/add_roster">Add Roster</p></a> {% else %}
 <h3>It doesn't look like any rosters have been made, create a new one <a href='#'>here!</a></h3> {% endif %} {% endblock %}
