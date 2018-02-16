@@ -91,6 +91,25 @@ def add_student():
 
     return render_template('add_student.html')
 
+@app.route('/update_student', methods=['POST','GET'])
+def update_student():
+    if request.method == 'GET':
+        student_id = request.args.get('student_id')
+        student = Student.query.filter_by(id=student_id).first()
+        return render_template('edit_profile.html', title='update_student', student=student)
+    else:
+        student_id = request.args.get('student_id')
+        new_name = request.form['name']
+        new_notes = request.form['notes']
+        student = Student.query.filter_by(id=student_id).first()
+        student.name = new_name
+        student.notes = new_notes
+        db.session.commit()
+        new_name = request.form['name']
+        new_notes = request.form['notes']
+        return redirect('/student_profile?student_id=' + str(student_id))
+
+
 @app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
     if request.method == 'GET':
