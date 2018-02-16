@@ -111,8 +111,7 @@ def update_student():
 @app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
     if request.method == 'GET':
-        #TODO: Create add_roster.html
-        return '<h1>Here will be a form to add a roster</h1>'
+        return render_template('add_roster.html', title='add roster')
     else:
         course_name = request.form['course_name']
         new_roster = Roster(course_name)
