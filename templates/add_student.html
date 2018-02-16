@@ -1,19 +1,16 @@
-{% extends "base.html" %}
-
-{% block content%}
+{% extends "base.html" %} {% block content%}
 
 <h1>Add a Student</h1>
 
-  <form action="/add_student" method="post">
-    Name: <br>
-    <input type="text" name="name"/><br>
-    <label class="error">{{name_error}}</label><br>
+<form action="/add_student" method="post">
+  Name: <br>
+  <input type="text" name="name" /><br>
+  <label class="error">{{name_error}}</label><br> Phone number: <br>
+  <input type='text' name='phone' /><br> Notes: <br>
+  <textarea name="notes" rows="10" columns="30"></textarea><br>
 
-    Notes: <br>
-    <textarea name="notes" rows="10" columns="30"></textarea><br>
+  <input type="submit" value="submit" />
 
-    <input type="submit" value="submit" />
-
-  </form>
+</form>
 
 {% endblock %}
