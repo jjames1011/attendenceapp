@@ -3,5 +3,6 @@
 <a href='/single_roster?roster_id={{roster.id}}'>
   <p>{{ roster.course_name }}</p>
 </a>
-{% endfor %} {% else %}
+{% endfor %}
+<a href="/add_roster">Add Roster</p></a> {% else %}
 <h3>It doesn't look like any rosters have been made, create a new one <a href='#'>here!</a></h3> {% endif %} {% endblock %}

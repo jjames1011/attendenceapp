@@ -24,13 +24,16 @@ class Roster(db.Model):
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    phone = db.Column(db.String(80))
     notes = db.Column(db.String(250))
     rosters = db.relationship('Roster_Student_Relationship', backref='student')
 
 
-    def __init__(self, name, notes):
+    def __init__(self, name, phone, notes):
         self.name = name
+        self.phone = phone
         self.notes = notes
+
 
     def __repr__(self):
         return '<Student %r' % self.name

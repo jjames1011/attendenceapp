@@ -18,6 +18,7 @@ def signup():
     #TODO implement Session key to keep track of logged in username
     #TODO add verification
 
+
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
@@ -71,22 +72,47 @@ def single_roster():
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
-    if request.method == 'GET':
-        #TODO: Create add_student.html template and render it here
-        return '<h1>This is where the add student form will be rendered</h1>'
-    else:
+    if request.method == 'POST':
         name = request.form['name']
         notes = request.form['notes']
-        new_Student = Student(name, notes)
-        db.session.add(new_Student)
+        phone = request.form['phone']
+
+        name_error = ''
+
+        if not name:
+            name_error = "Please enter a student's name."
+
+        if not name_error:
+            new_Student = Student(name, phone, notes)
+            db.session.add(new_Student)
+            db.session.commit()
+            return redirect('/student_profile?student_id='+ str(new_Student.id))
+        else:
+            return render_template('add_student.html', name_error=name_error)
+
+    return render_template('add_student.html')
+
+@app.route('/update_student', methods=['POST','GET'])
+def update_student():
+    if request.method == 'GET':
+        student_id = request.args.get('student_id')
+        student = Student.query.filter_by(id=student_id).first()
+        return render_template('edit_profile.html', title='update_student', student=student)
+    else:
+        student_id = request.args.get('student_id')
+        new_name = request.form['name']
+        new_notes = request.form['notes']
+        student = Student.query.filter_by(id=student_id).first()
+        student.name = new_name
+        student.notes = new_notes
         db.session.commit()
-        return redirect('/student_profile?student_id='+ str(new_Student.id))
+        return redirect('/student_profile?student_id=' + str(student_id))
+
 
 @app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
     if request.method == 'GET':
-        #TODO: Create add_roster.html
-        return '<h1>Here will be a form to add a roster</h1>'
+        return render_template('add_roster.html', title='add roster')
     else:
         course_name = request.form['course_name']
         new_roster = Roster(course_name)
