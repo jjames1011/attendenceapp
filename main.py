@@ -18,6 +18,7 @@ def signup():
     #TODO implement Session key to keep track of logged in username
     #TODO add verification
 
+
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
