@@ -71,16 +71,24 @@ def single_roster():
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
-    if request.method == 'GET':
-        #TODO: Create add_student.html template and render it here
-        return '<h1>This is where the add student form will be rendered</h1>'
-    else:
+    if request.method == 'POST':
         name = request.form['name']
         notes = request.form['notes']
-        new_Student = Student(name, notes)
-        db.session.add(new_Student)
-        db.session.commit()
-        return redirect('/student_profile?student_id='+ str(new_Student.id))
+
+        name_error = ''
+
+        if not name:
+            name_error = "Please enter a student's name."
+
+        if not name_error:
+            new_Student = Student(name, notes)
+            db.session.add(new_Student)
+            db.session.commit()
+            return redirect('/student_profile?student_id='+ str(new_Student.id))
+        else:
+            return render_template('add_student.html', name_error=name_error)
+
+    return render_template('add_student.html')
 
 @app.route('/add_roster', methods=['POST','GET'])
 def add_roster():
