@@ -105,8 +105,6 @@ def update_student():
         student.name = new_name
         student.notes = new_notes
         db.session.commit()
-        new_name = request.form['name']
-        new_notes = request.form['notes']
         return redirect('/student_profile?student_id=' + str(student_id))
 
 
