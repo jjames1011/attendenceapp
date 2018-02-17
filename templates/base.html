@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <head>
-  <meta charset="UTF-8">
-  <title>{{ title }}</title>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- CSS - use CDN for Bootstrap after development--->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body>
-  <!-- <nav class="navbar navbar-default">
+    <!-- <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand">Attendence App</a>
@@ -23,8 +29,11 @@
     </div>
   </nav> -->
 
-  {% block content %} {% endblock %}
-
+    {% block content %} {% endblock %}
+    <!--  JavaScript - use CDN after development -->
+    <!-- jQuery first, then Bootstrap.bundle.js which includes Popper.js -->
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
