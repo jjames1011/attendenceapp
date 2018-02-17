@@ -21,6 +21,7 @@ class Roster(db.Model):
     def __init__(self,course_name):
         self.course_name = course_name
 
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
@@ -34,9 +35,9 @@ class Student(db.Model):
         self.phone = phone
         self.notes = notes
 
-
     def __repr__(self):
         return '<Student %r' % self.name
+
 
 class Roster_Student_Relationship(db.Model):
     '''This is a table to represent the many-to-many relationship between a roster and a student. '''
