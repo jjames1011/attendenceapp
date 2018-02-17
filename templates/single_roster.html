@@ -1,6 +1,9 @@
-{% extends "base.html" %} {% block content%} {% if roster %}
-<h1>{{ roster.course_name }}:</h1> {% endif %} {% if errorMSG%}
+{% extends "base.html" %} {% block content%}{% if roster %}
+<h1>{{ roster.course_name }}:</h1> {% endif %}
+{% if errorMSG%}
 <h1>{{errorMSG}}</h1> {% else %} {% for student in students %}
 <a href='/student_profile?student_id={{student.id}}'>
-  <p>{{student.name}}</p>
-</a> {% endfor %}{% endif %}{% endblock %}
+<p>{{student.name}}</p></a>
+{% endfor %}{% endif %}
+<a href="/add_student_to_roster?roster_id={{roster.id}}">Add students to this roster</a>
+{% endblock %}

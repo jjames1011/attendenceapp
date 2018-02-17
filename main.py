@@ -167,16 +167,25 @@ def single_student():
     title = student.name
     return render_template('student_profile.html', student=student, title=title)
 
-@app.route('/add_student_to_roster', methods=['POST'])
+@app.route('/add_student_to_roster', methods=['POST', 'GET'])
 def add_student_to_roster():
-    student_id = request.form['student_id']
-    roster_id = request.form['roster_id']
-    new_relationship = Roster_Student_Relationship(roster_id,student_id)
-    db.session.add(new_relationship)
-    db.session.commit()
+
+    students = Student.query.all()
+    roster_id = request.args.get('roster_id')
+    roster = Roster.query.filter_by(id=roster_id).first()
+
+    if request.method == 'POST':
+        student_ids = request.form.getlist('students_ids')
+        # roster_id = request.form['roster_id']
+        for student_id in student_ids:
+            new_relationship = Roster_Student_Relationship(roster_id,student_id)
+            db.session.add(new_relationship)
+            db.session.commit()
     #TODO figure out a way to add more than one student to a roster at a time
 
-    return redirect('/single_roster?roster_id='+str(roster_id))
+        return redirect('/single_roster?roster_id='+str(roster_id))
+
+    return render_template('add_student_to_roster.html', students=students, roster=roster)
 
 if __name__ == '__main__':
     app.run()
