@@ -102,9 +102,11 @@ def update_student():
         student_id = request.args.get('student_id')
         new_name = request.form['name']
         new_notes = request.form['notes']
+        new_phone = request.form['phone']
         student = Student.query.filter_by(id=student_id).first()
         student.name = new_name
         student.notes = new_notes
+        student.phone = new_phone
         db.session.commit()
         return redirect('/student_profile?student_id=' + str(student_id))
 
@@ -141,7 +143,7 @@ def add_session():
             attendence = Attendence(new_session.id, student.id)
             db.session.add(attendence)
 
-        db.session.commit()        
+        db.session.commit()
         return redirect('/single_roster?roster_id=' + str(roster_id))
 
 
@@ -152,9 +154,9 @@ def single_session():
 
     if not session:
         return 'No session associated with this id'
-    
+
     return jsonify(session.attendences)
-    
+
 
 @app.route('/student_profile')
 def single_student():
@@ -175,7 +177,7 @@ def add_student_to_roster():
     roster = Roster.query.filter_by(id=roster_id).first()
 
     if request.method == 'POST':
-        student_ids = request.form.getlist('students_ids')
+        student_ids = request.form.getlist('student_id')
         # roster_id = request.form['roster_id']
         for student_id in student_ids:
             new_relationship = Roster_Student_Relationship(roster_id,student_id)
