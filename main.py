@@ -95,9 +95,11 @@ def update_student():
         student_id = request.args.get('student_id')
         new_name = request.form['name']
         new_notes = request.form['notes']
+        new_phone = request.form['phone']
         student = Student.query.filter_by(id=student_id).first()
         student.name = new_name
         student.notes = new_notes
+        student.phone = new_phone
         db.session.commit()
         return redirect('/student_profile?student_id=' + str(student_id))
 
@@ -145,7 +147,7 @@ def add_session():
             attendence.session = new_session
             db.session.add(attendence)
 
-        db.session.commit()        
+        db.session.commit()
         return redirect('/single_roster?roster_id=' + str(roster_id))
 
 
@@ -171,19 +173,23 @@ def single_student():
     title = student.name
     return render_template('student_profile.html', student=student, title=title)
 
-@app.route('/add_student_to_roster', methods=['POST'])
+@app.route('/add_student_to_roster', methods=['POST', 'GET'])
 def add_student_to_roster():
-    student_id = request.form['student_id']
-    student = Student.query.filter_by(id=student_id)
-    roster_id = request.form['roster_id']
-    roster = Roster.query.filter_by(id=student_id)
+    roster_id = request.args.get('roster_id')
+    roster = Roster.query.filter_by(id=roster_id).first()
 
-    roster.students.append(student)
-    db.session.commit()
-    #TODO figure out a way to add more than one student to a roster at a time
-    # https://stackoverflow.com/questions/14188451/get-multiple-request-params-of-the-same-name
+    if request.method == 'POST':
+        student_ids = request.form.getlist('student_id')
+        students = Student.query.filter(Student.id.in_(student_ids)).all()
 
-    return redirect('/single_roster?roster_id='+str(roster_id))
+        roster.students.extend(students)
+        db.session.commit()
+    
+        return redirect('/single_roster?roster_id='+str(roster_id))
+    else:    
+        students = Student.query.all()
+        
+        return render_template('add_student_to_roster.html', students=students, roster=roster)
 
 if __name__ == '__main__':
     app.run()
