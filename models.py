@@ -12,10 +12,16 @@ class User(db.Model):
         self.rank = rank
 
 
+association_table = db.Table('roster_student',
+    db.Column('roster_id', db.Integer, db.ForeignKey('roster.id')),
+    db.Column('student_id', db.Integer, db.ForeignKey('student.id'))
+)
+
+
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(80))
-    students = db.relationship('Roster_Student_Relationship', backref='roster')
+    students = db.relationship('Student', secondary=association_table, backref='rosters')
     sessions = db.relationship('Session', backref='roster')
 
     def __init__(self,course_name):
@@ -27,8 +33,7 @@ class Student(db.Model):
     name = db.Column(db.String(80))
     phone = db.Column(db.String(80))
     notes = db.Column(db.String(250))
-    rosters = db.relationship('Roster_Student_Relationship', backref='student')
-
+    attendences = db.relationship('Attendence', backref='student')
 
     def __init__(self, name, phone, notes):
         self.name = name
@@ -39,43 +44,28 @@ class Student(db.Model):
         return '<Student %r' % self.name
 
 
-class Roster_Student_Relationship(db.Model):
-    '''This is a table to represent the many-to-many relationship between a roster and a student. '''
-    id = db.Column(db.Integer, primary_key=True)
-    roster_id = db.Column(db.Integer, db.ForeignKey('roster.id'))
-    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
-
-    def __init__(self, roster_id, student_id):
-        self.roster_id = roster_id
-        self.student_id = student_id
-
-
 class Session(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roster_id = db.Column(db.Integer, db.ForeignKey('roster.id'))
+    name = db.Column(db.String(80))
     start = db.Column(db.DateTime)
     end = db.Column(db.DateTime)
-    attendences = db.relationship('Attendence')
+    attendences = db.relationship('Attendence', backref='session')
 
-    def __init__(self, roster_id, start, end):
-        self.roster_id = roster_id
+    def __init__(self, name, start, end):
+        self.name = name
         self.start = start
         self.end = end
 
 
 class Attendence(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)    
     session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
-    student = db.relationship('Student', backref='attendences')
     checkin_time = db.Column(db.DateTime)
     checkout_time = db.Column(db.DateTime)
 
     __table_args__ = (
         db.UniqueConstraint('session_id', 'student_id'),
     )
-
-    def __init__(self, session_id, student_id):
-        self.session_id = session_id
-        self.student_id = student_id
     
