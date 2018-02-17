@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<h1>Add Students to {{ roster.course_name }}</h1>
+
+  <form action="/add_student_to_roster?roster_id={{roster.id}}" method="post">
+
+    <h2>All students:</h1>
+    {% for student in students %}
+      <a href='/student_profile?student_id={{student.id}}'>
+        <input type="checkbox" name="student_id" value="{{ student.id }}">
+        <label>{{ student.name }}</label><br>
+      </a>
+    {% endfor %}
+
+    <br><input type="submit" value="Add students to roster"/>
+
+  </form>
+
+
+{% endblock %}
