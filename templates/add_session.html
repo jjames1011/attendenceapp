@@ -1,0 +1,25 @@
+<!--
+This will be a form with just one field of 'course_name' that will be 
+sent as a POST request to /add_roster route handler.-->
+{% extends "base.html" %} {% block content%}
+
+<h1>Add session</h1>
+
+<form action="/add_session" method="post">
+    <label>Name: </label>
+    <input type="text" name="session_name" /><br>
+    <label class="error">{{name_error}}</label><br>
+
+    <label>Start: </label>
+    <input type="text" name="session_start" /><br>
+
+    <label>End: </label>
+    <input type="text" name="session_end" /><br>
+
+    <input type="hidden" name="roster_id" value="{{roster.id}}"/>
+
+    <input type="submit" value="submit" />
+
+</form>
+
+{% endblock %}

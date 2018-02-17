@@ -52,23 +52,16 @@ def single_roster():
     '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
     roster_id = request.args.get('roster_id')
     roster = Roster.query.filter_by(id=roster_id).first()
-    student_roster_relationships = Roster_Student_Relationship.query.filter_by(roster_id=roster_id).all()
-    students = []
-
-
+    
     if not roster:
         errorMSG = 'No roster was found with that id'
         return render_template('single_roster.html',errorMSG=errorMSG)
 
-    if not student_roster_relationships:
+    if not roster.students:
         errorMSG = 'No students have been added to this roster'
         return render_template('single_roster.html', roster=roster,errorMSG=errorMSG)
 
-    for relationship in student_roster_relationships:
-        student = Student.query.filter_by(id=relationship.student_id).first()
-        students.append(student)
-
-    return render_template('single_roster.html',students=students,roster=roster)
+    return render_template('single_roster.html', roster=roster)
 
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
@@ -123,22 +116,33 @@ def add_roster():
 
 @app.route('/add_session', methods=['POST','GET'])
 def add_session():
+    no_roster_message = 'No roster associated with this id'
+
     if request.method == 'GET':
-        return '<h1>Here will be a form to add a session</h1>'
-    else:
-        roster_id = request.form['roster_id']
-        # start = request.form['start']
-        # end = request.form['end']
-        new_session = Session(roster_id, None, None)
-        db.session.add(new_session)
-        db.session.flush()
+        roster_id = request.args.get('roster_id')
+        if not roster_id:
+            return 'Roster id required'
 
         roster = Roster.query.filter_by(id=roster_id).first()
         if not roster:
-            return 'No roster associated with this id'
+            return no_roster_message
+        
+        return render_template('add_session.html', roster=roster)
+    else:
+        roster_id = request.form['roster_id']
+        roster = Roster.query.filter_by(id=roster_id).first()
+        if not roster:
+            return no_roster_message
+
+        name = request.form['session_name']        
+        new_session = Session(name, None, None)
+        roster.sessions.append(new_session)
+        db.session.flush()
 
         for student in roster.students:
-            attendence = Attendence(new_session.id, student.id)
+            attendence = Attendence()
+            attendence.student = student
+            attendence.session = new_session
             db.session.add(attendence)
 
         db.session.commit()        
@@ -153,7 +157,7 @@ def single_session():
     if not session:
         return 'No session associated with this id'
     
-    return jsonify(session.attendences)
+    return render_template('single_session.html', session=session)
     
 
 @app.route('/student_profile')
@@ -170,11 +174,14 @@ def single_student():
 @app.route('/add_student_to_roster', methods=['POST'])
 def add_student_to_roster():
     student_id = request.form['student_id']
+    student = Student.query.filter_by(id=student_id)
     roster_id = request.form['roster_id']
-    new_relationship = Roster_Student_Relationship(roster_id,student_id)
-    db.session.add(new_relationship)
+    roster = Roster.query.filter_by(id=student_id)
+
+    roster.students.append(student)
     db.session.commit()
     #TODO figure out a way to add more than one student to a roster at a time
+    # https://stackoverflow.com/questions/14188451/get-multiple-request-params-of-the-same-name
 
     return redirect('/single_roster?roster_id='+str(roster_id))
 
