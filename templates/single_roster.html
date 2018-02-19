@@ -1,38 +1,29 @@
-{% extends "base.html" %} 
-{% block content %} 
+{% extends "base.html" %} {% block content %} {% if roster %}
+<h1>{{ roster.course_name }}:</h1> {% endif %} {% if errorMSG %}
+<h1>{{errorMSG}}</h1>
+<p>Click <a href='/add_student_to_roster?roster_id={{roster.id}}'>here</a> to add students to this roster.</p>
+{% else %}
+<h1>Students:</h1> {% for student in roster.students %}
+<a href='/student_profile?student_id={{student.id}}'>
+  <p>{{student.name}}</p>
+</a>
+{% endfor %}
+<a href="/add_student_to_roster?roster_id={{roster.id}}">Add students to this roster</a>
 
-{% if roster %}
-  <h1>{{ roster.course_name }}:</h1> 
-{% endif %} 
-
-{% if errorMSG %}
-  <h1>{{errorMSG}}</h1> 
-{% else %} 
-  <h1>Students:</h1> 
-  {% for student in roster.students %}
-    <a href='/student_profile?student_id={{student.id}}'>
-      <p>{{student.name}}</p>
-    </a> 
+<h1>Sessions:</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Start</th>
+    <th>End</th>
+  </tr>
+  {% for session in roster.sessions %}
+  <tr>
+    <td><a href='/single_session?session_id={{session.id}}'>{{session.name}}</a></td>
+    <td>{{session.start}}</td>
+    <td>{{session.end}}</td>
+  </tr>
   {% endfor %}
-  <a href="/add_student_to_roster?roster_id={{roster.id}}">Add students to this roster</a>
+</table>
 
-  <h1>Sessions:</h1> 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Start</th>
-      <th>End</th>
-    </tr>
-    {% for session in roster.sessions %}
-      <tr>
-        <td><a href='/single_session?session_id={{session.id}}'>{{session.name}}</a></td>
-        <td>{{session.start}}</td>
-        <td>{{session.end}}</td>
-      </tr>
-    {% endfor %}  
-  </table>
-
-  <a href="/add_session?roster_id={{roster.id}}">Add session</p></a>
-{% endif %}
-{% endblock %}
-
+<a href="/add_session?roster_id={{roster.id}}">Add session</p></a> {% endif %} {% endblock %}
