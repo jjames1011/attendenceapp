@@ -1,8 +1,34 @@
-{% extends "base.html" %}{% block content %} {% if errorMSG%}
-<h1>{{errorMSG}}</h1> {% else %}
-<h1>{{student.name}}</h1>
-<h3>{{student.phone}}</h3>
-<h3>{{student.notes}}</h3>
-<a href='/update_student?student_id={{student.id}}'>
-  <p>edit</p>
-</a>{% endif %}{% endblock %}
+{% extends "base.html" %}
+{% block content %} 
+{% if errorMSG%}
+  <h1>{{errorMSG}}</h1> 
+{% else %}
+  <h1>{{student.name}}</h1>
+  <h3>{{student.phone}}</h3>
+  <h3>{{student.notes}}</h3>
+  <a href='/update_student?student_id={{student.id}}'>
+    <p>edit</p>
+  </a>
+
+  <h1>Attendence</h1>
+  <table>
+    <tr>
+      <th>Roster</th>
+      <th>Session</th>
+      <th>Present</th>
+      <th>Check-in</th>
+      <th>Check-out</th>
+    </tr>
+
+    {% for attendence in student.attendences %}    
+    <tr>
+      <td>{{attendence.session.roster.course_name}}</td>
+      <td>{{attendence.session.name}}</td>
+      <td>{% if attendence.checkin %}Yes{% else %}No{% endif %}</td>
+      <td>{{attendence.checkin}}</td>
+      <td>{{attendence.checkout}}</td>
+    </tr>
+    {% endfor %}  
+  </table>  
+{% endif %}
+{% endblock %}
