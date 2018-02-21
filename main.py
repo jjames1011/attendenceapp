@@ -52,7 +52,7 @@ def single_roster():
     '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/single_roster?roster_id=1'''
     roster_id = request.args.get('roster_id')
     roster = Roster.query.filter_by(id=roster_id).first()
-    
+
     if not roster:
         errorMSG = 'No roster was found with that id'
         return render_template('single_roster.html',errorMSG=errorMSG)
@@ -90,7 +90,7 @@ def update_student():
     if request.method == 'GET':
         student_id = request.args.get('student_id')
         student = Student.query.filter_by(id=student_id).first()
-        return render_template('edit_profile.html', title='update_student', student=student)
+        return render_template('edit_profile.html', title='update student', student=student)
     else:
         student_id = request.args.get('student_id')
         new_name = request.form['name']
@@ -128,7 +128,7 @@ def add_session():
         roster = Roster.query.filter_by(id=roster_id).first()
         if not roster:
             return no_roster_message
-        
+
         return render_template('add_session.html', roster=roster)
     else:
         roster_id = request.form['roster_id']
@@ -136,7 +136,7 @@ def add_session():
         if not roster:
             return no_roster_message
 
-        name = request.form['session_name']        
+        name = request.form['session_name']
         new_session = Session(name, None, None)
         roster.sessions.append(new_session)
         db.session.flush()
@@ -158,9 +158,9 @@ def single_session():
 
     if not session:
         return 'No session associated with this id'
-    
+
     return render_template('single_session.html', session=session)
-    
+
 
 @app.route('/student_profile')
 def single_student():
@@ -184,11 +184,11 @@ def add_student_to_roster():
 
         roster.students.extend(students)
         db.session.commit()
-    
+
         return redirect('/single_roster?roster_id='+str(roster_id))
-    else:    
+    else:
         students = Student.query.all()
-        
+
         return render_template('add_student_to_roster.html', students=students, roster=roster)
 
 if __name__ == '__main__':
