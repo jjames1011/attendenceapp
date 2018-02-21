@@ -5,49 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <!-- CSS - use CDN for Bootstrap after development -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <!-- CSS - use CDN for Bootstrap after development -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-faded">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-        <a class="navbar-brand">Attendance App</a>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link active" href="/list_rosters">Rosters <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/list_students">Students</a>
-                <a class="nav-item nav-link" href="/add_roster">Create a Roster</a>
-                <a class="nav-item nav-link" href="/add_student">Create a Student</a>
-                <a class="nav-item nav-link" href="/add_student_to_roster">Add Students to Roster</a>
-            </div>
-        </div>
-    </nav>
+    <a class="navbar-brand">Attendance App</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav mr-auto">
+        <a class="nav-item nav-link active" href="/list_rosters">Rosters <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="/list_students">Students</a>
+        <a class="nav-item nav-link" href="/add_roster">Create a Roster</a>
+        <a class="nav-item nav-link" href="/add_student">Create a Student</a>
+
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+
+
+    {% block content %} {% endblock %}
+  </div>
+
+  <footer class="footer">
     <div class="container">
+      <span class="text-muted">&copy; Attendance App</span>
 
-
-        {% block content %} {% endblock %}
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted">&copy; Attendance App</span>
-
-        </div>
-
-    </footer>
+  </footer>
 
 
-    <!--  JavaScript - use CDN after development -->
-    <!-- jQuery first, then Bootstrap.bundle.js which includes Popper.js -->
-    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <!--  JavaScript - use CDN after development -->
+  <!-- jQuery first, then Bootstrap.bundle.js which includes Popper.js -->
+  <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
