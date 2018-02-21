@@ -3,5 +3,7 @@
 <a href='/student_profile?student_id={{student.id}}'>
   <p>{{ student.name }}</p>
 </a>
-{% endfor %} {% else %}
+{% endfor %}
+<p class="mt-4">
+  <a href="/add_student" class="btn btn-outline-info">Add a Student</a> </p> {% else %}
 <h3>It doesn't look like any students have been added, add students at <a href='/add_student'>here!</a></h3> {% endif %} {% endblock %}
