@@ -1,18 +1,19 @@
 {% extends "base.html" %} {% block content %}
+<div class='col-md-6 center'>
+  <h1>Update Student</h1>
 
-<h1>Update Student</h1>
+  <form action="/update_student?student_id={{student.id}}" method="post">
+    <p>Name:</p>
+    <input type="text" name="name" value='{{student.name}}' class='rounded border  border-info' /> {% if name_error %}
+    <label class="error">{{name_error}}</label> {% endif %}
+    <p class='mt-2'>Phone Number:</p>
+    <input type='text' name='phone' value='{{student.phone}}' class='rounded border  border-info' />
+    <p class='mt-2'>Notes:</p>
+    <input type='text' name="notes" value='{{student.notes}}' class='pb-5 pl-1 rounded border  border-info' /><br>
 
-<form action="/update_student?student_id={{student.id}}" method="post">
-  Name: <br>
-  <input type="text" name="name" value='{{student.name}}' /><br>
-  <label class="error">{{name_error}}</label>
-  Phone Number: <br>
-  <input type='text' name='phone' value='{{student.phone}}' /><br>
-  Notes: <br>
-  <input type='text' name="notes" value='{{student.notes}}' /><br>
+    <input type="submit" value="submit" class='mt-4' />
 
-  <input type="submit" value="submit" />
-
-</form>
+  </form>
+</div>
 
 {% endblock %}
