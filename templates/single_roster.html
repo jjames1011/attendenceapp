@@ -5,28 +5,30 @@
 {% else %}
 <h2>Students:</h2> {% for student in roster.students %}
 <a href='/student_profile?student_id={{student.id}}'>
-    <p>{{student.name}}</p>
+  <p>{{student.name}}</p>
 </a>
 {% endfor %}
 <a class="btn btn-outline-info" href="/add_student_to_roster?roster_id={{roster.id}}">Add students to this roster</a>
 
 <h2>Sessions:</h2>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Start</th>
-        <th>End</th>
-    </tr>
-    {% for session in roster.sessions %}
-    <tr>
-        <td><a href='/single_session?session_id={{session.id}}'>{{session.name}}</a></td>
-        <td>{{session.start}}</td>
-        <td>{{session.end}}</td>
-    </tr>
-    {% endfor %}
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Start</th>
+    <th>End</th>
+  </tr>
+  {% for session in roster.sessions %}
+  <tr>
+    <td><a href='/single_session?session_id={{session.id}}'>{{session.name}}</a></td>
+    <td>{{session.date.strftime('%m/%w/%Y') }}</td>
+    <td>{{session.start}}</td>
+    <td>{{session.end}}</td>
+  </tr>
+  {% endfor %}
 </table>
 
 <a class="btn btn-outline-info" href="/add_session?roster_id={{roster.id}}">Add session</a>
 <p>
-    <a href="/list_rosters" class="btn btn-outline-info">Back to rosters</a> </p>
+  <a href="/list_rosters" class="btn btn-outline-info">Back to rosters</a> </p>
 {% endif %} {% endblock %}

@@ -138,7 +138,8 @@ def add_session():
             return no_roster_message
 
         name = request.form['session_name']
-        new_session = Session(name, None, None)
+        date = datetime.datetime.now(datetime.timezone.utc)
+        new_session = Session(name, date, None, None)
         roster.sessions.append(new_session)
         db.session.flush()
 
