@@ -50,7 +50,7 @@ class Session(db.Model):
     name = db.Column(db.String(80))
     start = db.Column(db.DateTime)
     end = db.Column(db.DateTime)
-    attendences = db.relationship('Attendence', backref='session')
+    attendences = db.relationship('Attendence', backref='session', cascade="all")
 
     def __init__(self, name, start, end):
         self.name = name

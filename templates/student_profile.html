@@ -22,11 +22,11 @@
 
   {% for attendence in student.attendences %}
   <tr>
-    <td>{{attendence.session.roster.course_name}}</td>
-    <td>{{attendence.session.name}}</td>
-    <td>{% if attendence.checkin %}Yes{% else %}No{% endif %}</td>
-    <td>{{attendence.checkin}}</td>
-    <td>{{attendence.checkout}}</td>
+    <td><a href='/single_roster?roster_id={{attendence.session.roster.id}}'>{{attendence.session.roster.course_name}}</a></td>
+    <td><a href='/single_session?session_id={{attendence.session.id}}'>{{attendence.session.name}}</a></td>
+    <td>{% if attendence.checkin_time %}Yes{% else %}No{% endif %}</td>
+    <td>{{attendence.checkin_time}}</td>
+    <td>{{attendence.checkout_time}}</td>
   </tr>
   {% endfor %}
 </table>

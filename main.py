@@ -1,6 +1,7 @@
 from flask import request, redirect, render_template, session, flash, jsonify
 from app import app, db
 from models import *
+import datetime
 
 @app.route('/')
 def index():
@@ -190,6 +191,35 @@ def add_student_to_roster():
         students = Student.query.all()
 
         return render_template('add_student_to_roster.html', students=students, roster=roster)
+
+
+@app.route('/update_attendences', methods=['POST'])
+def update_attendences():
+    session_id = request.form.get("session_id")
+    session = Session.query.filter_by(id=session_id).first()
+
+    if not session:
+        return 'Session was not found'
+
+    checkin_list = [int(id) for id in request.form.getlist('checkin')]
+    checkout_list = [int(id) for id in request.form.getlist('checkout')]
+
+    for attendence in session.attendences:
+        if attendence.id in checkin_list:
+            if not attendence.checkin_time:
+                attendence.checkin_time = datetime.datetime.now(datetime.timezone.utc)
+        else:
+            attendence.checkin_time = None
+
+        if attendence.id in checkout_list:
+            if not attendence.checkout_time:
+                attendence.checkout_time = datetime.datetime.now(datetime.timezone.utc)
+        else:
+            attendence.checkout_time = None
+
+    db.session.commit()
+
+    return redirect('/single_session?session_id='+str(session_id))
 
 if __name__ == '__main__':
     app.run()

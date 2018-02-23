@@ -1,19 +1,32 @@
 {% extends "base.html" %} {% block content %} 
 
 <h1>Session {{session.name}}:</h1> 
-<table>
-  <tr>
-    <th>Student</th>
-    <th>Checkin</th>
-    <th>Checkout</th>
-  </tr>
-  {% for attendence in session.attendences %}
+<form action="/update_attendences" method="post">
+  <input type="hidden" name="session_id" value={{session.id}}>
+  <table>
     <tr>
-      <td><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.name}}</a></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
+      <th>Student</th>
+      <th>Checkin</th>
+      <th>Checkout</th>
     </tr>
-  {% endfor %}  
-</table>
-
+    {% for attendence in session.attendences %}
+      <tr>
+        <td><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.name}}</a></td>
+        <td>
+          <label>
+            <input type="checkbox" name="checkin" value="{{attendence.id}}" {% if attendence.checkin_time %}checked{% endif %}>
+            {{ attendence.checkin_time }}
+          </label>
+        </td>
+        <td>
+          <label>
+            <input type="checkbox" name="checkout" value="{{attendence.id}}" {% if attendence.checkout_time %}checked{% endif %}>
+            {{ attendence.checkout_time }}
+          </label>
+        </td>
+      </tr>
+    {% endfor %}    
+  </table>
+  <input type="submit" class="btn btn-outline-secondary" value="submit" />
+</form>
 {% endblock %}
