@@ -48,18 +48,20 @@ class Session(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roster_id = db.Column(db.Integer, db.ForeignKey('roster.id'))
     name = db.Column(db.String(80))
+    date = db.Column(db.DateTime)
     start = db.Column(db.DateTime)
     end = db.Column(db.DateTime)
     attendences = db.relationship('Attendence', backref='session', cascade="all")
 
-    def __init__(self, name, start, end):
+    def __init__(self, name, date, start, end):
         self.name = name
+        self.date = date 
         self.start = start
         self.end = end
 
 
 class Attendence(db.Model):
-    id = db.Column(db.Integer, primary_key=True)    
+    id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
     checkin_time = db.Column(db.DateTime)
@@ -68,4 +70,3 @@ class Attendence(db.Model):
     __table_args__ = (
         db.UniqueConstraint('session_id', 'student_id'),
     )
-    
