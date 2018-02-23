@@ -2,6 +2,10 @@ from flask import request, redirect, render_template, session, flash, jsonify
 from app import app, db
 from models import *
 import datetime
+import pytz
+
+utc_now = pytz.utc.localize(datetime.datetime.now())
+pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
 
 @app.route('/')
 def index():
@@ -138,7 +142,7 @@ def add_session():
             return no_roster_message
 
         name = request.form['session_name']
-        date = datetime.datetime.now(datetime.timezone.utc)
+        date = pst_now
         new_session = Session(name, date, None, None)
         roster.sessions.append(new_session)
         db.session.flush()
