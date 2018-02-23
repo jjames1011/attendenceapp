@@ -212,13 +212,13 @@ def update_attendences():
     for attendence in session.attendences:
         if attendence.id in checkin_list:
             if not attendence.checkin_time:
-                attendence.checkin_time = datetime.datetime.now(datetime.timezone.utc)
+                attendence.checkin_time = pst_now
         else:
             attendence.checkin_time = None
 
         if attendence.id in checkout_list:
             if not attendence.checkout_time:
-                attendence.checkout_time = datetime.datetime.now(datetime.timezone.utc)
+                attendence.checkout_time = pst_now
         else:
             attendence.checkout_time = None
 
