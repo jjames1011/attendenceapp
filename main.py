@@ -212,7 +212,7 @@ def update_attendences():
             attendence.checkin_time = None
 
         if attendence.id in checkout_list:
-            if not attendence.checkout_time:
+            if not attendence.checkout_time and attendence.checkin_time:
                 attendence.checkout_time = datetime.datetime.now(datetime.timezone.utc)
         else:
             attendence.checkout_time = None
