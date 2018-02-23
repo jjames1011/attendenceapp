@@ -4,7 +4,7 @@ from models import *
 import datetime
 import pytz
 
-utc_now = pytz.utc.localize(datetime.datetime.now())
+utc_now = datetime.datetime.now()
 pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
 
 @app.route('/')
