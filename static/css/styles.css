@@ -9,7 +9,16 @@ h3 {
     margin-top: 1rem;
 }
 
-/* Add space around navbar */
+a {
+    color: #3E88C4;
+}
+
+a:hover {
+    color: #28557b;
+    text-decoration: none;
+}
+
+/* Adjustments to navbar */
 
 .navbar {
     padding-top: 1em;
@@ -18,13 +27,23 @@ h3 {
     margin-bottom: 1.5em;
 }
 
-.navbar-brand {
-    padding-right: 2.5em;
-}
 
 .navbar {
-    background-color: #f7f7f7;
+    background-color: #3F325D;
 }
+
+a.navbar-brand {
+    color: #fff !important;
+}
+
+a.nav-link {
+    color: #fff !important;
+}
+
+a.nav-link:hover {
+    color: #f0f663 !important;
+}
+
 
 /* Sticky footer styles from Bootstrap*/
 
@@ -46,5 +65,90 @@ body {
     /* Set the fixed height of the footer here */
     line-height: 60px;
     /* Vertically center the text there */
-    background-color: #f7f7f7;
+    background-color: #3F325D;
+    color: #fff;
+}
+
+/* Change colors of buttons */
+
+.btn-outline-info {
+    color: #FF4A1C;
+    border-color: #FF4A1C;
+    background-color: #fff;
+}
+
+.btn-outline-info:visited {
+    color: #FF4A1C;
+    border-color: #FF4A1C;
+    background-color: #fff;
+
+}
+
+
+.btn-outline-info:hover {
+    color: #fff;
+    background-color: #FF4A1C;
+    border-color: #FF4A1C;
+
+}
+
+.btn-outline-info:active {
+    color: #fff;
+    background-color: #FF4A1C;
+    border-color: #FF4A1C;
+
+}
+
+.btn-outline-info:not(:disabled):not(.disabled):active,
+.btn-outline-info:not(:disabled):not(.disabled).active,
+.show > .btn-outline-info.dropdown-toggle {
+    color: #fff;
+    background-color: #FF4A1C;
+    border-color: #FF4A1C;
+}
+
+.btn-outline-secondary {
+    color: #77878B;
+    border-color: #77878B;
+    background-color: #fff;
+}
+
+.btn-outline-secondary:visited {
+    color: #77878B;
+    border-color: #77878B;
+    background-color: #fff;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #77878B;
+    border-color: #77878B;
+
+}
+
+.btn-outline-secondary:active {
+    color: #fff;
+    background-color: #77878B;
+    border-color: #77878B;
+
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active,
+.btn-outline-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-info.dropdown-toggle {
+    color: #fff;
+    background-color: #77878B;
+    border-color: #77878B;
+
+}
+
+/*media queries */
+
+/* Small devices (tablets, 768px and up) */
+
+@media (min-width: 768px) {
+    .navbar-brand {
+        margin-right: 2.5rem !important;
+    }
+
 }
