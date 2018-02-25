@@ -18,13 +18,13 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-        <a class="navbar-brand">Attendance App</a>
+        <a class="navbar-brand" href="{{ url_for('list_rosters')}}">Attendance App</a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="/list_rosters">Rosters <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/list_students">Students</a>
-                <a class="nav-item nav-link" href="/add_roster">Create a Roster</a>
-                <a class="nav-item nav-link" href="/add_student">Create a Student</a>
+                <a id="list_rosters" class="nav-item nav-link" href="{{ url_for('list_rosters')}}">Rosters <span class="sr-only">(current)</span></a>
+                <a id="list_students" class="nav-item nav-link" href="{{ url_for('list_students')}}">Students</a>
+                <a id="add_roster" class="nav-item nav-link" href="{{ url_for('add_roster')}}">Create a Roster</a>
+                <a id="add_student" class="nav-item nav-link" href="{{ url_for('add_student')}}">Create a Student</a>
 
             </div>
         </div>
@@ -47,6 +47,13 @@
     <!-- jQuery first, then Bootstrap.bundle.js which includes Popper.js -->
     <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <!--    Jquery added to show active page on nav bar-->
+    <script>
+        $(document).ready(function() {
+            $("#{{request.endpoint}}").addClass("active");
+        })
+
+    </script>
 </body>
 
 </html>
