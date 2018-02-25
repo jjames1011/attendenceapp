@@ -44,6 +44,9 @@ a.nav-link:hover {
     color: #f0f663 !important;
 }
 
+a.active {
+    color: #f0f663!important;
+}
 
 /* Sticky footer styles from Bootstrap*/
 
