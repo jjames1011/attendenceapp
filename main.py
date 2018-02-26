@@ -154,7 +154,7 @@ def add_session():
             db.session.add(attendence)
 
         db.session.commit()
-        return redirect('/single_roster?roster_id=' + str(roster_id))
+        return redirect('/single_session?session_id=' + str(new_session.id))
 
 
 @app.route('/single_session')
@@ -208,8 +208,17 @@ def update_attendences():
 
     checkin_list = [int(id) for id in request.form.getlist('checkin')]
     checkout_list = [int(id) for id in request.form.getlist('checkout')]
+    absent_list = [int(id) for id in request.form.getlist('absent')]
 
     for attendence in session.attendences:
+        if attendence.id in absent_list:
+                attendence.absent = True
+        if attendence.absent == True:
+            attendence.checkin_time = None
+            attendence.checkout_time = None
+            db.session.commit()
+            return redirect('/single_session?session_id='+str(session_id))
+
         if attendence.id in checkin_list:
             if not attendence.checkin_time:
                 attendence.checkin_time = pst_now

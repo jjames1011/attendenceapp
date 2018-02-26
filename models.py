@@ -55,7 +55,7 @@ class Session(db.Model):
 
     def __init__(self, name, date, start, end):
         self.name = name
-        self.date = date 
+        self.date = date
         self.start = start
         self.end = end
 
@@ -64,6 +64,7 @@ class Attendence(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    absent = db.Column(db.Boolean, default=False)
     checkin_time = db.Column(db.DateTime)
     checkout_time = db.Column(db.DateTime)
 
