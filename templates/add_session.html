@@ -1,5 +1,5 @@
 <!--
-This will be a form with just one field of 'course_name' that will be 
+This will be a form with just one field of 'course_name' that will be
 sent as a POST request to /add_roster route handler.-->
 {% extends "base.html" %} {% block content%}
 
@@ -16,9 +16,9 @@ sent as a POST request to /add_roster route handler.-->
     <label>End: </label>
     <input type="text" name="session_end" /><br>
 
-    <input type="hidden" name="roster_id" value="{{roster.id}}" />
+    <input type="hidden" name="roster_id" value="{{roster.id}}"/>
 
-    <input type="submit" class="btn btn-outline-secondary" value="submit" />
+    <input type="submit" value="submit" />
 
 </form>
 
