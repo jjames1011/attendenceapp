@@ -192,10 +192,12 @@ def add_student_to_roster():
         db.session.commit()
 
         return redirect('/single_roster?roster_id='+str(roster_id))
-    else:
-        students = Student.query.all()
 
-        return render_template('add_student_to_roster.html', students=students, roster=roster)
+    else:
+        # gets all students who are not already in this class roster
+        new_students = Student.query.filter(~Student.rosters.contains(roster))
+
+        return render_template('add_student_to_roster.html', students=new_students, roster=roster)
 
 
 @app.route('/update_attendences', methods=['POST'])
