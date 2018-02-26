@@ -1,19 +1,39 @@
 {% extends "base.html" %} {% block content %}
 
 <h1>Session {{session.name}}:</h1>
-<table>
-  <tr>
-    <th>Student</th>
-    <th>Checkin</th>
-    <th>Checkout</th>
-  </tr>
-  {% for attendence in session.attendences %}
+<form action="/update_attendences" method="post">
+  <input type="hidden" name="session_id" value={{session.id}}>
+  <table>
+    <tr>
+      <th>Student</th>
+      <th>Absent</th>
+      <th>Checkin</th>
+      <th>Checkout</th>
+    </tr>
+    {% for attendence in session.attendences %}
     <tr>
       <td><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.name}}</a></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
+      <td>
+        <input type='checkbox' name='absent' value='{{attendence.id}}' {% if attendence.absent %}checked {% endif %}></td>
+      <td>
+        <label>
+            <input type="checkbox" id="checkin-{{attendence.id}}" name="checkin" value="{{attendence.id}}" {% if attendence.checkin_time %}checked{% endif %}>
+            {% if attendence.checkin_time %}
+            {{ attendence.checkin_time.strftime('%-I:%M %p') }}
+            {% endif %}
+          </label>
+      </td>
+      <td>
+        <label>
+            <input type="checkbox" id="checkout-{{attendence.id}}" name="checkout" value="{{attendence.id}}" {% if attendence.checkout_time %}checked{% endif %} {% if not attendence.checkin_time %}disabled="disabled"{% endif %}>
+            {% if attendence.checkout_time %}
+            {{ attendence.checkout_time.strftime('%-I:%M %p') }}
+            {% endif %}
+          </label>
+      </td>
     </tr>
-  {% endfor %}
-</table>
-
+    {% endfor %}
+  </table>
+  <input type="submit" class="btn btn-outline-secondary" value="submit" />
+</form>
 {% endblock %}

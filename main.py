@@ -2,6 +2,10 @@ from flask import request, redirect, render_template, session, flash, jsonify
 from app import app, db
 from models import *
 import datetime
+import pytz
+
+utc_now = datetime.datetime.now()
+pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
 
 @app.route('/')
 def index():
@@ -138,7 +142,8 @@ def add_session():
             return no_roster_message
 
         name = request.form['session_name']
-        new_session = Session(name, None, None)
+        date = pst_now
+        new_session = Session(name, date, None, None)
         roster.sessions.append(new_session)
         db.session.flush()
 
@@ -149,7 +154,7 @@ def add_session():
             db.session.add(attendence)
 
         db.session.commit()
-        return redirect('/single_roster?roster_id=' + str(roster_id))
+        return redirect('/single_session?session_id=' + str(new_session.id))
 
 
 @app.route('/single_session')
@@ -205,17 +210,26 @@ def update_attendences():
 
     checkin_list = [int(id) for id in request.form.getlist('checkin')]
     checkout_list = [int(id) for id in request.form.getlist('checkout')]
+    absent_list = [int(id) for id in request.form.getlist('absent')]
 
     for attendence in session.attendences:
+        if attendence.id in absent_list:
+                attendence.absent = True
+        if attendence.absent == True:
+            attendence.checkin_time = None
+            attendence.checkout_time = None
+            db.session.commit()
+            return redirect('/single_session?session_id='+str(session_id))
+
         if attendence.id in checkin_list:
             if not attendence.checkin_time:
-                attendence.checkin_time = datetime.datetime.now(datetime.timezone.utc)
+                attendence.checkin_time = pst_now
         else:
             attendence.checkin_time = None
 
         if attendence.id in checkout_list:
-            if not attendence.checkout_time:
-                attendence.checkout_time = datetime.datetime.now(datetime.timezone.utc)
+            if not attendence.checkout_time and attendence.checkin_time:
+                attendence.checkout_time = pst_now
         else:
             attendence.checkout_time = None
 
