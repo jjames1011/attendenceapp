@@ -101,12 +101,12 @@ def update_student():
         student = Student.query.filter_by(id=student_id).first()
         return render_template('edit_profile.html', title='update student', student=student)
     else:
-        student_id = request.args.get('student_id')
-        new_name = request.form['name']
+        student_id = request.args.get('student_id')        
         new_notes = request.form['notes']
         new_phone = request.form['phone']
         student = Student.query.filter_by(id=student_id).first()
-        student.name = new_name
+        student.first_name = request.form['first_name']
+        student.last_name = request.form['last_name']
         student.notes = new_notes
         student.phone = new_phone
         db.session.commit()
