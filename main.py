@@ -146,8 +146,10 @@ def add_session():
             return no_roster_message
 
         name = "Session " + str(len(roster.sessions) + 1)
-        date = pst_now
-        new_session = Session(name, date, None, None)
+        date = datetime.datetime.strptime(request.form['session_date'], '%Y-%m-%d')
+        start = datetime.datetime.strptime(request.form['session_start'], '%H:%M')
+        end = datetime.datetime.strptime(request.form['session_end'], '%H:%M')
+        new_session = Session(name, date, start, end)
         roster.sessions.append(new_session)
         db.session.flush()
 
@@ -158,7 +160,7 @@ def add_session():
             db.session.add(attendence)
 
         db.session.commit()
-        return redirect('/single_session?session_id=' + str(new_session.id))
+        return redirect('/single_roster?roster_id=' + str(roster_id))
 
 
 @app.route('/single_session')
@@ -218,24 +220,24 @@ def update_attendences():
 
     for attendence in session.attendences:
         if attendence.id in absent_list:
-                attendence.absent = True
-        if attendence.absent == True:
+            attendence.absent = True
             attendence.checkin_time = None
             attendence.checkout_time = None
             db.session.commit()
             return redirect('/single_session?session_id='+str(session_id))
-
-        if attendence.id in checkin_list:
-            if not attendence.checkin_time:
-                attendence.checkin_time = pst_now
         else:
-            attendence.checkin_time = None
+            if attendence.id in checkin_list:
+                if not attendence.checkin_time:
+                    attendence.checkin_time = pst_now
+            else:
+                attendence.checkin_time = None
+                attendence.checkout_time = None
 
-        if attendence.id in checkout_list:
-            if not attendence.checkout_time and attendence.checkin_time:
-                attendence.checkout_time = pst_now
-        else:
-            attendence.checkout_time = None
+            if attendence.id in checkout_list:
+                if not attendence.checkout_time and attendence.checkin_time:
+                    attendence.checkout_time = pst_now
+            else:
+                attendence.checkout_time = None
 
     db.session.commit()
 

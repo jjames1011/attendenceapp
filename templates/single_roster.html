@@ -38,8 +38,8 @@
   <tr>
     <td><a href='/single_session?session_id={{session.id}}'>{{session.name}}</a></td>
     <td>{{session.date.strftime('%m/%d/%Y') }}</td>
-    <td>{{session.start}}</td>
-    <td>{{session.end}}</td>
+    <td>{% if session.start %} {{session.start.strftime('%I:%M %p')}} {% endif %}</td>
+    <td>{% if session.end %} {{session.end.strftime('%I:%M %p')}} {% endif %}</td>
   </tr>
   {% endfor %}
 </table>

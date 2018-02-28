@@ -6,11 +6,14 @@ sent as a POST request to /add_roster route handler.-->
 <h1>Add session</h1>
 
 <form action="/add_session" method="post">
-    <label>Start: </label>
-    <input type="text" name="session_start" /><br>
+    <label>Date: </label><br>
+    <input type="date" name="session_date" /><br>
 
-    <label>End: </label>
-    <input type="text" name="session_end" /><br>
+    <label>Start: </label><br>
+    <input type="time" name="session_start" /><br>
+
+    <label>End: </label><br>
+    <input type="time" name="session_end" /><br>
 
     <input type="hidden" name="roster_id" value="{{roster.id}}"/>
 

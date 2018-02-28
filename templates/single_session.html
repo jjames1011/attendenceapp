@@ -16,20 +16,20 @@
       <td>
         <input type='checkbox' name='absent' value='{{attendence.id}}' {% if attendence.checkin_time %}disabled{% endif %}{% if attendence.absent %}disabled checked {% endif %}></td>
       <td>
+        <input type="checkbox" id="checkin-{{attendence.id}}" name="checkin" value="{{attendence.id}}" {% if attendence.absent %}disabled{% endif %}{% if attendence.checkin_time %}checked {% endif %}>
         <label>
-            <input type="checkbox" id="checkin-{{attendence.id}}" name="checkin" value="{{attendence.id}}" {% if attendence.absent %}disabled{% endif %}{% if attendence.checkin_time %}checked {% endif %}>
-            {% if attendence.checkin_time %}
-            {{ attendence.checkin_time.strftime('%-I:%M %p') }}
-            {% endif %}
-          </label>
+          {% if attendence.checkin_time %}
+          {{ attendence.checkin_time.strftime('%I:%M %p') }}
+          {% endif %}
+        </label>
       </td>
       <td>
+        <input type="checkbox" id="checkout-{{attendence.id}}" name="checkout" value="{{attendence.id}}"  {% if not attendence.checkin_time %}disabled="disabled"{% endif %}{%if attendence.checkout_time %}checked{% endif %}>
         <label>
-            <input type="checkbox" id="checkout-{{attendence.id}}" name="checkout" value="{{attendence.id}}"  {% if not attendence.checkin_time %}disabled="disabled"{% endif %}{%if attendence.checkout_time %}checked{% endif %}>
-            {% if attendence.checkout_time %}
-            {{ attendence.checkout_time.strftime('%-I:%M %p') }}
-            {% endif %}
-          </label>
+          {% if attendence.checkout_time %}
+          {{ attendence.checkout_time.strftime('%I:%M %p') }}
+          {% endif %}
+        </label>
       </td>
     </tr>
     {% endfor %}
