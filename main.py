@@ -75,19 +75,22 @@ def add_student():
         last_name = request.form['last_name']
         notes = request.form['notes']
         phone = request.form['phone']
-
-        name_error = ''
+        error_msg = ''
+        #Checks if there is a student in the database with the same first and last names
+        duplicate_student = Student.query.filter_by(first_name=first_name,last_name=last_name).first()
+        if duplicate_student:
+            error_msg = 'Oops It looks like there is already a student with that name.'
 
         if not first_name or not last_name:
-            name_error = "Please fill out both name fields"
+            error_msg = "Please fill out both name fields"
 
-        if not name_error:
+        if not error_msg:
             new_Student = Student(first_name,last_name, phone, notes)
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
         else:
-            return render_template('add_student.html', name_error=name_error)
+            return render_template('add_student.html', error_msg=error_msg)
 
     return render_template('add_student.html')
 
