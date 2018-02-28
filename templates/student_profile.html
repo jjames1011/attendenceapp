@@ -28,7 +28,7 @@
     <td>{{attendence.session.date.strftime('%m/%d/%Y')}}</td>
     <td>{% if attendence.checkin_time %}Yes{% else %}No{% endif %}</td>
     <td>{{attendence.checkin_time.strftime('%-I:%M %p')}}</td>
-    <td>{{attendence.checkout_time}}</td>
+    <td>{{attendence.checkout_time.strftime('%-I:%M %p')}}</td>
   </tr>
   {% endfor %}
 </table>
