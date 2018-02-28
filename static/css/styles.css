@@ -41,11 +41,11 @@ a.nav-link {
 }
 
 a.nav-link:hover {
-    color: #f0f663 !important;
+    color: #fff6a7 !important;
 }
 
 a.active {
-    color: #f0f663!important;
+    color: #fff6a7!important;
 }
 
 /* Sticky footer styles from Bootstrap*/
@@ -75,14 +75,14 @@ body {
 /* Change colors of buttons */
 
 .btn-outline-info {
-    color: #FF4A1C;
-    border-color: #FF4A1C;
+    color: #F18f01;
+    border-color: #F18f01;
     background-color: #fff;
 }
 
 .btn-outline-info:visited {
-    color: #FF4A1C;
-    border-color: #FF4A1C;
+    color: #F18f01;
+    border-color: #F18f01;
     background-color: #fff;
 
 }
@@ -90,15 +90,15 @@ body {
 
 .btn-outline-info:hover {
     color: #fff;
-    background-color: #FF4A1C;
-    border-color: #FF4A1C;
+    background-color: #F18f01;
+    border-color: #F18f01;
 
 }
 
 .btn-outline-info:active {
     color: #fff;
-    background-color: #FF4A1C;
-    border-color: #FF4A1C;
+    background-color: #F18f01;
+    border-color: #F18f01;
 
 }
 
@@ -106,8 +106,8 @@ body {
 .btn-outline-info:not(:disabled):not(.disabled).active,
 .show > .btn-outline-info.dropdown-toggle {
     color: #fff;
-    background-color: #FF4A1C;
-    border-color: #FF4A1C;
+    background-color: #F18f01;
+    border-color: #F18f01;
 }
 
 .btn-outline-secondary {
@@ -146,6 +146,11 @@ body {
 }
 
 /* adjustment to tables */
+
+.thead-light th {
+    background-color: rgba(241, 143, 1, 0.2) !important;
+    opacity: 50%;
+}
 
 /*media queries */
 
