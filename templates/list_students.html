@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block content %} {% if students %}
 <h1>All Students:</h1> {% for student in students %}
 <a href='/student_profile?student_id={{student.id}}'>
-    <p>{{ student.name }}</p>
+  <p>{{ student.last_name + ', ' + student.first_name }}</p>
 </a>
 {% endfor %}
 <p>
-    <a href="/add_student" class="btn btn-outline-info">Add a Student</a> </p> {% else %}
+  <a href="/add_student" class="btn btn-outline-info">Add a Student</a> </p> {% else %}
 <h3>It doesn't look like any students have been added, add students at <a href='/add_student'>here!</a></h3> {% endif %} {% endblock %}
