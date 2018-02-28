@@ -180,7 +180,7 @@ def single_student():
     if not student:
         errorMSG = 'There is no student in the database with that id'
         return render_template('student_profile.html', errorMSG=errorMSG, title='Student not found')
-    title = student.last_name + ',' + student.first_name
+    title = student.last_name + ', ' + student.first_name
     return render_template('student_profile.html', student=student, title=title)
 
 @app.route('/add_student_to_roster', methods=['POST', 'GET'])
