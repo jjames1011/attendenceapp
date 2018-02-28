@@ -63,10 +63,10 @@ with app.app_context():
     db.session.add(roster1)
     db.session.add(roster2)
 
-    student1 = Student('Mary', '555-555-5555', 'This is a note')
-    student2 = Student('Cody', '555-555-5555', 'This is a note')
-    student3 = Student('Wendy', '555-555-5555', 'This is a note')
-    student4 = Student('Olivia', '555-555-5555', 'This is a note')
+    student1 = Student('Mary', 'Mary', '555-555-5555', 'This is a note')
+    student2 = Student('Cody', 'Cody', '555-555-5555', 'This is a note')
+    student3 = Student('Wendy', 'Wendy', '555-555-5555', 'This is a note')
+    student4 = Student('Olivia', 'Olivia', '555-555-5555', 'This is a note')
 
     db.session.add(student1)
     db.session.add(student2)

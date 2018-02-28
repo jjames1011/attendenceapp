@@ -145,7 +145,7 @@ def add_session():
         if not roster:
             return no_roster_message
 
-        name = request.form['session_name']
+        name = "Session " + str(len(roster.sessions) + 1)
         date = pst_now
         new_session = Session(name, date, None, None)
         roster.sessions.append(new_session)
