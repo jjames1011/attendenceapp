@@ -12,7 +12,7 @@
     </tr>
     {% for attendence in session.attendences %}
     <tr>
-      <td><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.name}}</a></td>
+      <td><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.last_name + ', ' + attendence.student.first_name}}</a></td>
       <td>
         <input type='checkbox' name='absent' value='{{attendence.id}}' {% if attendence.absent %}checked {% endif %}></td>
       <td>

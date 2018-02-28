@@ -71,17 +71,18 @@ def single_roster():
 @app.route('/add_student', methods=['POST', 'GET'])
 def add_student():
     if request.method == 'POST':
-        name = request.form['name']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
         notes = request.form['notes']
         phone = request.form['phone']
 
         name_error = ''
 
-        if not name:
-            name_error = "Please enter a student's name."
+        if not first_name or not last_name:
+            name_error = "Please fill out both name fields"
 
         if not name_error:
-            new_Student = Student(name, phone, notes)
+            new_Student = Student(first_name,last_name, phone, notes)
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
@@ -176,7 +177,7 @@ def single_student():
     if not student:
         errorMSG = 'There is no student in the database with that id'
         return render_template('student_profile.html', errorMSG=errorMSG, title='Student not found')
-    title = student.name
+    title = student.last_name + ',' + student.first_name
     return render_template('student_profile.html', student=student, title=title)
 
 @app.route('/add_student_to_roster', methods=['POST', 'GET'])

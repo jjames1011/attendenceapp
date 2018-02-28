@@ -8,7 +8,7 @@
   <h2>All students:</h2> {% for student in students %}
   <input type="checkbox" name="student_id" value="{{ student.id }}">
   <a href='/student_profile?student_id={{student.id}}'>
-        <label>{{ student.name }}</label><br>
+        <label>{{ student.last_name + ', ' + student.first_name }}</label><br>
       </a> {% endfor %}
 
   <br><input class="btn btn-outline-secondary" type="submit" value="Add students to roster" />
