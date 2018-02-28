@@ -5,8 +5,8 @@
 <form action="/add_student" method="post">
   First Name: <br>
   <input type="text" name="first_name" /><br> Last Name: <br>
-  <input type='text' name='last_name' /><br>
-  <label class="error">{{error_msg}}</label><br> Phone number: <br>
+  <input type='text' name='last_name' /><br> {% if error_msg %}
+  <label class="error">{{error_msg}}</label><br>{% endif %} Phone number: <br>
   <input type='text' name='phone' /><br> Notes: <br>
   <textarea name="notes" rows="10" columns="30"></textarea><br>
 
