@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block content %}
+<h1>Sign Up!</h1>
 <form action='/signup'>
   <p>email:</p>
   <input type='text' name='email'>
@@ -8,4 +9,5 @@
   <input type='verify' name='verify'><br>
   <input type='submit'>
 </form>
-{% endblock %}
+
+<h4>Already a user? click <a href='/login'>here</a> to login</h4> {% endblock %}
