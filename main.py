@@ -6,11 +6,11 @@ import pytz
 
 utc_now = datetime.datetime.now()
 pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
-
+endpoints_without_login = ['login','signup','static']
 @app.before_request
 def require_login(): #Control for endpoint access for a non logged in user
     if not ('user' in session or request.endpoint in endpoints_without_login):
-        return redirect("/login")
+        return redirect("/signup")
 
 @app.route('/')
 def index():
@@ -40,7 +40,7 @@ def signup():
     else:
         return render_template('signup.html')
     #TODO Hash passwords
-    
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -59,7 +59,7 @@ def login():
     else:
         return render_template('login.html')
 
-@app.route('/logout', methods=['POST']):
+@app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     return redirect('/')
