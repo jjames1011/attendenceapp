@@ -66,7 +66,7 @@ def logout():
 
 @app.route('/list_rosters')
 def list_rosters():
-    rosters = Roster.query.all()
+    rosters = Roster.query.filter_by(user_id=session['user_id']).all()
     return render_template('list_rosters.html',rosters=rosters)
 
 @app.route('/list_students')
