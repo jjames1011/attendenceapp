@@ -26,21 +26,20 @@ def signup():
 
     return redirect('/')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'Login Error:','There is no user with that username'})
-    elif user.password == password:
-        welcome_Msg = 'Welcome ' + username
-        #TODO implement session keys
-        return jsonify({'Message': welcome_Msg})
+    if request.method == 'GET':
+        return render_template('login.html')
     else:
-        password_Incorrect_Msg = 'Incorrect Password'
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
 
-        return jsonify({'Message': password_Incorrect_Msg})
+        if user and user.password == password:
+            return render_template('login.html', welcome_msg='Welcome ' + username)
+        else:
+            return render_template('login.html', error_msg='Wrong username of password')
+            
 
 @app.route('/list_rosters')
 def list_rosters():
