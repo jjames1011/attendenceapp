@@ -71,7 +71,7 @@ def list_rosters():
 
 @app.route('/list_students')
 def list_students():
-    students = Student.query.all()
+    students = Student.query.filter_by(user_id=session['user_id']).all()
     return render_template('list_students.html', students=students, title='All students:')
 
 @app.route('/single_roster')
