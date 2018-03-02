@@ -9,7 +9,7 @@ pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
 endpoints_without_login = ['login','signup','static']
 @app.before_request
 def require_login(): #Control for endpoint access for a non logged in user
-    if not ('user' in session or request.endpoint in endpoints_without_login):
+    if not ('user_id' in session or request.endpoint in endpoints_without_login):
         return redirect("/signup")
 
 @app.route('/')
@@ -27,7 +27,7 @@ def signup():
         duplicate_user = User.query.filter_by(email=email).first()
         if duplicate_user:
             return render_template('signup.html',error_msg='There is already a user with that email')
-        if not username or not password or not verify_pwd:
+        if not email or not password or not verify_pwd:
             return render_template('signup.html', error_msg='Please fill out all fields')
         elif password != verify_pwd:
             return render_template('signup.html', error_msg='Passwords did not match')
@@ -35,7 +35,7 @@ def signup():
             new_User = User(email, password)
             db.session.add(new_User)
             db.session.commit()
-            session['user'] = new_User.email
+            session['user_id'] = new_User.id
             return redirect('/')
     else:
         return render_template('signup.html')
@@ -52,14 +52,14 @@ def login():
             return render_template('login.html', error_msg='There is no user associated with that email')
         elif user.password == password:
             welcome_Msg = 'Welcome ' + username
-            session['user'] = user.email
+            session['user_id'] = user.id
             return redirect('/')
         else:
             return render_template('login.html',error_msg='Password incorrect')
     else:
         return render_template('login.html')
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['POST','GET'])
 def logout():
     session.clear()
     return redirect('/')
@@ -107,7 +107,7 @@ def add_student():
             error_msg = "Please fill out both name fields"
 
         if not error_msg:
-            new_Student = Student(first_name,last_name, phone, notes)
+            new_Student = Student(first_name,last_name, phone, notes,session['user_id'])
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
@@ -141,7 +141,7 @@ def add_roster():
         return render_template('add_roster.html', title='add roster')
     else:
         course_name = request.form['course_name']
-        new_roster = Roster(course_name)
+        new_roster = Roster(course_name,session['user_id'])
         db.session.add(new_roster)
         db.session.commit()
         return redirect('/single_roster?roster_id=' + str(new_roster.id))

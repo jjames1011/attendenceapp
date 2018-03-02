@@ -8,7 +8,7 @@ class User(db.Model):
 
 
     def __init__(self,email,password):
-        self.email = username
+        self.email = email
         self.password = password
 
 
@@ -37,7 +37,7 @@ class Student(db.Model):
     last_name = db.Column(db.String(80))
     phone = db.Column(db.String(80))
     notes = db.Column(db.String(250))
-    user_id = db.column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     attendences = db.relationship('Attendence', backref='student')
 
 

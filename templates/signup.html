@@ -1,12 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Sign Up!</h1>
-<form action='/signup'>
+<p>{{error_msg}}</p>
+<form action='/signup' method='post'>
   <p>email:</p>
   <input type='text' name='email'>
   <p>password:</p>
   <input type='password' name='password'>
   <p>Verify Password:</p>
-  <input type='verify' name='verify'><br>
+  <input type='password' name='verify'><br>
   <input type='submit'>
 </form>
 
