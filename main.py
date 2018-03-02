@@ -223,8 +223,6 @@ def update_attendences():
             attendence.absent = True
             attendence.checkin_time = None
             attendence.checkout_time = None
-            db.session.commit()
-            return redirect('/single_session?session_id='+str(session_id))
         else:
             if attendence.id in checkin_list:
                 if not attendence.checkin_time:
@@ -240,8 +238,8 @@ def update_attendences():
                 attendence.checkout_time = None
 
     db.session.commit()
+    return redirect('/single_session?session_id='+str(session_id))    
 
-    return redirect('/single_session?session_id='+str(session_id))
 
 if __name__ == '__main__':
     app.run()
