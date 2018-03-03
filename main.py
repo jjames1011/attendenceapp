@@ -55,7 +55,7 @@ def login():
             session['user_id'] = user.id
             return redirect('/')
         else:
-            return render_template('login.html', error_msg='Wrong username or password')  
+            return render_template('login.html', error_msg='Wrong username or password')
     else:
         if 'user_id' in session:
             return redirect('/')
@@ -225,7 +225,7 @@ def add_student_to_roster():
 
     else:
         # gets all students who are not already in this class roster
-        new_students = Student.query.filter(~Student.rosters.contains(roster))
+        new_students = Student.query.filter(~Student.rosters.contains(roster)).all()
 
         return render_template('add_student_to_roster.html', students=new_students, roster=roster)
 
@@ -262,7 +262,7 @@ def update_attendences():
                 attendence.checkout_time = None
 
     db.session.commit()
-    return redirect('/single_session?session_id='+str(session_id))    
+    return redirect('/single_session?session_id='+str(session_id))
 
 
 #The secret key should be kept a secret when deployed. Meaning not on github

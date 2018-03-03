@@ -4,7 +4,7 @@
 
 <form action="/add_student_to_roster?roster_id={{roster.id}}" method="post">
 
-  {%if students %}
+  {% if students %}
   <h2>All students:</h2> {% for student in students %}
   <input type="checkbox" name="student_id" value="{{ student.id }}">
   <a href='/student_profile?student_id={{student.id}}'>
