@@ -1,35 +1,40 @@
 {% extends "base.html" %} {% block content %} {% if errorMSG%}
 <h1>{{errorMSG}}</h1> {% else %}
-<div class='col-md-6 center'>
-  <h1 class='mb-3'>{{student.last_name + ', ' + student.first_name}}</h1> <label for='phone' class='text-info'>Phone number:</label>
-  <p class='pb-5 pl-1 rounded border  border-info'><a href='tel://{{student.phone}}'>{{student.phone}}</a></p>
-  <label for='notes' class='text-info'>Notes:</label>
-  <p id='notes' class='pb-5 pl-1 rounded border  border-page'>{{student.notes}}</p>
-  <a href='/update_student?student_id={{student.id}}'>
-    <p>edit</p>
-  </a>
+<div class='col-md-6'>
+    <h1 class='mb-3'>{{student.last_name + ', ' + student.first_name}}</h1> <label class="edit-labels" for='phone'>Phone number:</label>
+    <p class='form-control-lg rounded border'><a href='tel://{{student.phone}}'>{{student.phone}}</a></p>
+    <label for='notes' class="edit-labels">Notes:</label>
+    <p id='notes' class='pb-5 pl-1 rounded border'>{{student.notes}}</p>
+    <a href='/update_student?student_id={{student.id}}'>
+        <p>edit</p>
+    </a>
 </div>
 
 <h1>Attendance</h1>
-<table>
-  <tr>
-    <th>Roster</th>
-    <th>Session</th>
-    <th>Date</th>
-    <th>Present</th>
-    <th>Check-in</th>
-    <th>Check-out</th>
-  </tr>
+<p>P = Present, A = Absent</p>
+<table class="table table-striped attendance-table">
+    <div class="row">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Roster</th>
+                <th scope="col">Session</th>
+                <th scope="col">Date</th>
+                <th scope="col">A/P</th>
+                <th scope="col">Check-in</th>
+                <th scope="col">Check-out</th>
+            </tr>
+        </thead>
 
-  {% for attendence in student.attendences %}
-  <tr>
-    <td><a href='/single_roster?roster_id={{attendence.session.roster.id}}'>{{attendence.session.roster.course_name}}</a></td>
-    <td><a href='/single_session?session_id={{attendence.session.id}}'>{{attendence.session.name}}</a></td>
-    <td>{%if attendence.session %}{{attendence.session.date.strftime('%m/%d/%Y')}}{%endif%}</td>
-    <td>{% if attendence.absent %}Absent{% else %}Present{% endif %}</td>
-    <td>{% if attendence.checkin_time %}{{attendence.checkin_time.strftime('%-I:%M %p')}} {%endif%}</td>
-    <td>{%if attendence.checkout_time%}{{attendence.checkout_time.strftime('%-I:%M %p')}}{%endif%}</td>
-  </tr>
-  {% endfor %}
+        {% for attendence in student.attendences %}
+        <tr>
+            <td><a href='/single_roster?roster_id={{attendence.session.roster.id}}'>{{attendence.session.roster.course_name}}</a></td>
+            <td><a href='/single_session?session_id={{attendence.session.id}}'>{{attendence.session.name}}</a></td>
+            <td>{%if attendence.session %}{{attendence.session.date.strftime('%m/%d/%Y')}}{%endif%}</td>
+            <td>{% if attendence.absent %}A{% else %}P{% endif %}</td>
+            <td>{% if attendence.checkin_time %}{{attendence.checkin_time.strftime('%-I:%M %p')}} {%endif%}</td>
+            <td>{%if attendence.checkout_time%}{{attendence.checkout_time.strftime('%-I:%M %p')}}{%endif%}</td>
+        </tr>
+        {% endfor %}
+    </div>
 </table>
 {% endif %} {% endblock %}

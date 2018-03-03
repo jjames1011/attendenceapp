@@ -145,12 +145,22 @@ body {
 
 }
 
+.edit-labels {
+    color: #77878B;
+
+}
+
 /* adjustment to tables */
 
 .thead-light th {
     background-color: rgba(241, 143, 1, 0.2) !important;
     opacity: 50%;
 }
+
+tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
 
 /*media queries */
 
@@ -159,6 +169,25 @@ body {
 @media (min-width: 768px) {
     .navbar-brand {
         margin-right: 2.5rem !important;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .attendance-table {
+        font-size: 0.9rem;
+    }
+
+}
+
+
+@media (max-width: 575px) {
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .attendance-table {
+        font-size: 0.8rem;
     }
 
 }
