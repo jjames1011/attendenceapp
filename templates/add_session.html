@@ -7,18 +7,19 @@ sent as a POST request to /add_roster route handler.-->
 
 <form action="/add_session" method="post">
     <label>Date: </label><br>
-    <div class=" px-0 col-lg-3">
+    <!--    input fields 50% on mobile, 25% on 768px and up-->
+    <div class=" px-0  col-6 col-md-3">
         <input class="form-control" type="date" name="session_date" /><br>
     </div>
     <label>Start: </label><br>
-    <div class="px-0 col-lg-3">
+    <div class="px-0  col-6 col-md-3">
         <input class="form-control" type="time" name="session_start" /><br>
     </div>
     <label>End: </label><br>
-    <div class="px-0 col-lg-3">
+    <div class="px-0 col-6 col-md-3">
         <input class="form-control" type="time" name="session_end" /><br>
     </div>
-    <div class="px-0 col-lg-3">
+    <div class="px-0 col-6 col-md-3">
         <input class="form-control" type="hidden" name="roster_id" value="{{roster.id}}" />
     </div>
     <input type="submit" class="btn btn-outline-secondary" value="submit" />
