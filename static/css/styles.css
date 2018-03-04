@@ -21,8 +21,6 @@ a:hover {
 /* Adjustments to navbar */
 
 .navbar {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
     padding-left: 2.5em;
     margin-bottom: 1.5em;
 }
@@ -143,6 +141,10 @@ body {
     background-color: #77878B;
     border-color: #77878B;
 
+}
+
+label {
+    margin-top: 0.6rem;
 }
 
 .edit-labels {
