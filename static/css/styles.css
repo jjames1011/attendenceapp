@@ -21,8 +21,8 @@ a:hover {
 /* Adjustments to navbar */
 
 .navbar {
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     padding-left: 2.5em;
     margin-bottom: 1.5em;
 }
