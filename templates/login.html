@@ -3,12 +3,16 @@
 <h1>Login!</h1>
 
 <form action='/login' method='post'>
-  <p>Email:</p>
-  <input type='text' name='email'>
-  <p class='mt-1'>Password:</p>
-  <input type='password' name='password'>
-  <p>{{error_msg}}</p>
-  <input type='submit' value='Submit'>
+    <label>Email:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='text' name='email'>
+    </div>
+    <label>Password:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='password' name='password'>
+    </div>
+    <p>{{error_msg}}</p>
+    <input type='submit' class="btn btn-outline-secondary" value='Submit'>
 </form>
 
-<h4 class='mt-2'>Don't have an account? click <a href='/signup'>here</a> to signup</h4> {% endblock %}
+<h4 class='mt-2'>Don't have an account? Signup <a href='/signup'>here</a></h4> {% endblock %}

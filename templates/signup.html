@@ -2,13 +2,19 @@
 <h1>Sign Up!</h1>
 <p>{{error_msg}}</p>
 <form action='/signup' method='post'>
-  <p>Email:</p>
-  <input type='text' name='email'>
-  <p class='mt-1'>Password:</p>
-  <input type='password' name='password'>
-  <p class='mt-1'>Verify Password:</p>
-  <input type='password' name='verify'><br>
-  <input class='mt-3' type='submit' value='Submit'>
+    <label>Email:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='text' name='email'>
+    </div>
+    <label>Password:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='password' name='password'>
+    </div>
+    <label>Verify Password:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='password' name='verify'>
+    </div>
+    <input class='mt-3 btn btn-outline-secondary' type='submit' value='Submit'>
 </form>
 
-<h4 class='mt-2'>Already a user? click <a href='/login'>here</a> to login</h4> {% endblock %}
+<h4 class='mt-2'>Already a user? Login <a href='/login'>here</a></h4> {% endblock %}
