@@ -32,6 +32,8 @@ a:hover {
 
 a.navbar-brand {
     color: #fff !important;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 a.nav-link {
@@ -192,4 +194,9 @@ tbody tr:last-child {
         font-size: 0.8rem;
     }
 
+    .table th,
+    .table td {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
 }
