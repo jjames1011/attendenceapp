@@ -184,7 +184,7 @@ def add_session():
             db.session.add(attendence)
 
         db.session.commit()
-        return redirect('/single_roster?roster_id=' + str(roster_id))
+        return redirect('/single_session?session_id=' + str(new_session.id))
 
 
 @app.route('/single_session')
