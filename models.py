@@ -22,8 +22,8 @@ association_table = db.Table('roster_student',
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(80))
-    students = db.relationship('Student', secondary=association_table, backref='rosters')
-    sessions = db.relationship('Session', backref='roster')
+    students = db.relationship('Student', secondary=association_table, backref='rosters', order_by="Student.first_name")
+    sessions = db.relationship('Session', backref='roster', order_by="Session.name")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self,course_name,user_id):

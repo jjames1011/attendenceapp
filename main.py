@@ -78,7 +78,10 @@ def list_rosters():
 
 @app.route('/list_students')
 def list_students():
-    students = Student.query.filter_by(user_id=session['user_id']).all()
+    students = (Student.query
+        .filter_by(user_id=session['user_id'])
+        .order_by(Student.first_name)
+        .all())
     return render_template('list_students.html', students=students, title='All students:')
 
 @app.route('/single_roster')
@@ -221,7 +224,10 @@ def add_student_to_roster():
 
     if request.method == 'POST':
         student_ids = request.form.getlist('student_id')
-        students = Student.query.filter(Student.id.in_(student_ids) , Student.user_id == session['user_id']).all()
+        students = (Student.query
+            .filter(Student.id.in_(student_ids), Student.user_id == session['user_id'])
+            .order_by(Student.first_name)
+            .all())
 
         roster.students.extend(students)
         db.session.commit()
@@ -230,7 +236,10 @@ def add_student_to_roster():
 
     else:
         # gets all students who are not already in this class roster
-        new_students = Student.query.filter(~Student.rosters.contains(roster) , Student.user_id == session['user_id']).all()
+        new_students = (Student.query
+            .filter(~Student.rosters.contains(roster), Student.user_id == session['user_id'])
+            .order_by(Student.first_name)
+            .all())
 
         return render_template('add_student_to_roster.html', students=new_students, roster=roster)
 

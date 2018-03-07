@@ -30,8 +30,8 @@
         <td><a href='/single_session?session_id={{attendence.session.id}}'>{{attendence.session.name}}</a></td>
         <td>{%if attendence.session %}{{attendence.session.date.strftime('%m/%d/%Y')}}{%endif%}</td>
         <td>{% if attendence.absent %}A{% else %}P{% endif %}</td>
-        <td>{% if attendence.checkin_time %}{{attendence.checkin_time.strftime('%-I:%M %p')}} {%endif%}</td>
-        <td>{%if attendence.checkout_time%}{{attendence.checkout_time.strftime('%-I:%M %p')}}{%endif%}</td>
+        <td>{% if attendence.checkin_time %}{{attendence.checkin_time.strftime('%I:%M %p')}} {%endif%}</td>
+        <td>{%if attendence.checkout_time%}{{attendence.checkout_time.strftime('%I:%M %p')}}{%endif%}</td>
     </tr>
     {% endfor %}
 </table>
