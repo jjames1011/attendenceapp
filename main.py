@@ -5,9 +5,13 @@ import datetime
 import pytz
 from hash_pwd import hash_password, check_password
 
-utc_now = datetime.datetime.now()
-pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
 endpoints_without_login = ['login','signup','static']
+
+def get_current_time():
+    utc_now = datetime.datetime.now()
+    pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
+    return pst_now
+
 @app.before_request
 def require_login(): #Control for endpoint access for a non logged in user
     if not ('user_id' in session or request.endpoint in endpoints_without_login):
@@ -251,14 +255,14 @@ def update_attendences():
         else:
             if attendence.id in checkin_list:
                 if not attendence.checkin_time:
-                    attendence.checkin_time = pst_now
+                    attendence.checkin_time = get_current_time()
             else:
                 attendence.checkin_time = None
                 attendence.checkout_time = None
 
             if attendence.id in checkout_list:
                 if not attendence.checkout_time and attendence.checkin_time:
-                    attendence.checkout_time = pst_now
+                    attendence.checkout_time = get_current_time()
             else:
                 attendence.checkout_time = None
 
