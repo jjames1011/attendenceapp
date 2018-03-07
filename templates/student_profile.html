@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block content %} {% if errorMSG%}
 <h1>{{errorMSG}}</h1> {% else %}
 <div class='col-md-6'>
-    <h1 class='mb-3'>{{student.last_name + ', ' + student.first_name}}</h1> <label class="edit-labels" for='phone'>Phone number:</label>
+    <h1 class='mb-3'>{{student.last_name + ', ' + student.first_name}}</h1> <label for='phone'>Phone number:</label>
     <p class='form-control-lg rounded border'><a href='tel://{{student.phone}}'>{{student.phone}}</a></p>
-    <label for='notes' class="edit-labels">Notes:</label>
+    <label for='notes'>Notes:</label>
     <p id='notes' class='pb-5 pl-1 rounded border'>{{student.notes}}</p>
     <a href='/update_student?student_id={{student.id}}'>
         <p>edit</p>
