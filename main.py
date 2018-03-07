@@ -217,7 +217,7 @@ def add_student_to_roster():
 
     if request.method == 'POST':
         student_ids = request.form.getlist('student_id')
-        students = Student.query.filter(Student.id.in_(student_ids)).all()
+        students = Student.query.filter(Student.id.in_(student_ids) , Student.user_id == session['user_id']).all()
 
         roster.students.extend(students)
         db.session.commit()
@@ -226,7 +226,7 @@ def add_student_to_roster():
 
     else:
         # gets all students who are not already in this class roster
-        new_students = Student.query.filter(~Student.rosters.contains(roster)).all()
+        new_students = Student.query.filter(~Student.rosters.contains(roster) , Student.user_id == session['user_id']).all()
 
         return render_template('add_student_to_roster.html', students=new_students, roster=roster)
 
