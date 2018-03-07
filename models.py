@@ -2,7 +2,7 @@ from app import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(30))
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(120))
     rosters = db.relationship('Roster', backref='user')
     students = db.relationship('Student', backref='user')
 

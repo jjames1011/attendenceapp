@@ -3,6 +3,7 @@ from app import app, db
 from models import *
 import datetime
 import pytz
+from hash_pwd import hash_password, check_password
 
 utc_now = datetime.datetime.now()
 pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
@@ -32,7 +33,7 @@ def signup():
         elif password != verify_pwd:
             return render_template('signup.html', error_msg='Passwords did not match')
         else:
-            new_User = User(email, password)
+            new_User = User(email, hash_password(password))
             db.session.add(new_User)
             db.session.commit()
             session['user_id'] = new_User.id
@@ -41,7 +42,7 @@ def signup():
         if 'user_id' in session:
             return redirect('/')
         return render_template('signup.html')
-    #TODO Hash passwords
+
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -51,7 +52,7 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
 
-        if user and user.password == password:
+        if user and check_password(user.password,password):
             session['user_id'] = user.id
             return redirect('/')
         else:
