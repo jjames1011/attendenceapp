@@ -8,6 +8,7 @@ gunicorn==19.7.1
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+psycopg2==2.7.4
 PyMySQL==0.7.11
 pytz==2017.3
 six==1.11.0
