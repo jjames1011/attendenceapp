@@ -16,6 +16,9 @@
 
 </form>
 
+  {% elif roster.students %}
+  <p>All students have already been added to this roster. Click <a href='/add_student'>here</a> to create a new student</p>
+
   {% else %}
   <p>No students have been added yet, click <a href='/add_student'>here</a> to add a new student</p>
   {% endif %}{% endblock %}
