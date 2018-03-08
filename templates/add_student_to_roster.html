@@ -12,8 +12,10 @@
       </a> {% endfor %}
 
   <br><input class="btn btn-outline-secondary" type="submit" value="Add students to roster" />
+  <a href="/add_student" class="btn btn-outline-info">Create New Student</a>
 
 </form>
-{% else %}
-<p>No students have been added yet, click <a href='/add_student'>here</a> to add a new student</p>
-{% endif %} {% endblock %}
+
+  {% else %}
+  <p>No students have been added yet, click <a href='/add_student'>here</a> to add a new student</p>
+  {% endif %}{% endblock %}

@@ -76,6 +76,7 @@ def add_student():
         notes = request.form['notes']
         phone = request.form['phone']
         error_msg = ''
+
         #Checks if there is a student in the database with the same first and last names
         duplicate_student = Student.query.filter_by(first_name=first_name,last_name=last_name).first()
         if duplicate_student:
@@ -101,7 +102,7 @@ def update_student():
         student = Student.query.filter_by(id=student_id).first()
         return render_template('edit_profile.html', title='update student', student=student)
     else:
-        student_id = request.args.get('student_id')        
+        student_id = request.args.get('student_id')
         new_notes = request.form['notes']
         new_phone = request.form['phone']
         student = Student.query.filter_by(id=student_id).first()
@@ -238,7 +239,7 @@ def update_attendences():
                 attendence.checkout_time = None
 
     db.session.commit()
-    return redirect('/single_session?session_id='+str(session_id))    
+    return redirect('/single_session?session_id='+str(session_id))
 
 
 if __name__ == '__main__':
