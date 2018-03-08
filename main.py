@@ -108,6 +108,7 @@ def add_student():
         notes = request.form['notes']
         phone = request.form['phone']
         error_msg = ''
+
         #Checks if there is a student in the database with the same first and last names
         duplicate_student = Student.query.filter_by(first_name=first_name,last_name=last_name).first()
         if duplicate_student:
