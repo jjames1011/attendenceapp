@@ -9,6 +9,7 @@ from sqlalchemy.schema import (
 )
 from app import app, db
 from models import *
+from hash_pwd import hash_password
 
 
 def drop_all(db):
@@ -57,16 +58,20 @@ with app.app_context():
 
     # Start to create default data
 
-    roster1 = Roster('Course 1')
-    roster2 = Roster('Course 2')
+    user = User('user@email.com', hash_password(123456))
+    db.session.add(user)
+    db.session.flush()
 
-    db.session.add(roster1)
-    db.session.add(roster2)
+    roster1 = Roster('Course 1', user.id)
+    roster2 = Roster('Course 2', user.id)
 
-    student1 = Student('Mary', 'Mary', '555-555-5555', 'This is a note')
-    student2 = Student('Cody', 'Cody', '555-555-5555', 'This is a note')
-    student3 = Student('Wendy', 'Wendy', '555-555-5555', 'This is a note')
-    student4 = Student('Olivia', 'Olivia', '555-555-5555', 'This is a note')
+    db.session.add(roster1, user.id)
+    db.session.add(roster2, user.id)
+
+    student1 = Student('Mary', 'Mary', '(555) 555-5555', 'This is a note', user.id)
+    student2 = Student('Cody', 'Cody', '(555) 555-5555', 'This is a note', user.id)
+    student3 = Student('Wendy', 'Wendy', '(555) 555-5555', 'This is a note', user.id)
+    student4 = Student('Olivia', 'Olivia', '(555) 555-55555', 'This is a note', user.id)
 
     db.session.add(student1)
     db.session.add(student2)

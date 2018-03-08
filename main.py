@@ -1,55 +1,87 @@
-from flask import request, redirect, render_template, session, flash, jsonify
+from flask import request, redirect, render_template, session, flash, session
 from app import app, db
 from models import *
 import datetime
 import pytz
+from hash_pwd import hash_password, check_password
 
-utc_now = datetime.datetime.now()
-pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
+endpoints_without_login = ['login','signup','static']
+
+def get_current_time():
+    utc_now = datetime.datetime.now()
+    pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
+    return pst_now
+
+@app.before_request
+def require_login(): #Control for endpoint access for a non logged in user
+    if not ('user_id' in session or request.endpoint in endpoints_without_login):
+        return redirect("/login")
 
 @app.route('/')
 def index():
 
     return redirect('/list_rosters')
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['GET','POST'])
 def signup():
-    username = request.form['username']
-    password = request.form['password']
-    rank = request.form['rank']
-    new_User = User(username, password, rank)
-    db.session.add(new_User)
-    db.session.commit()
-    #TODO implement Session key to keep track of logged in username
-    #TODO add verification
-
-
-    return redirect('/')
-
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'Login Error:','There is no user with that username'})
-    elif user.password == password:
-        welcome_Msg = 'Welcome ' + username
-        #TODO implement session keys
-        return jsonify({'Message': welcome_Msg})
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        verify_pwd = request.form['verify']
+        #Check to see if there is already a user in the db with the given email
+        duplicate_user = User.query.filter_by(email=email).first()
+        if duplicate_user:
+            return render_template('signup.html',error_msg='There is already a user with that email')
+        if not email or not password or not verify_pwd:
+            return render_template('signup.html', error_msg='Please fill out all fields')
+        elif password != verify_pwd:
+            return render_template('signup.html', error_msg='Passwords did not match')
+        else:
+            new_User = User(email, hash_password(password))
+            db.session.add(new_User)
+            db.session.commit()
+            session['user_id'] = new_User.id
+            return redirect('/')
     else:
-        password_Incorrect_Msg = 'Incorrect Password'
+        if 'user_id' in session:
+            return redirect('/')
+        return render_template('signup.html')
 
-        return jsonify({'Message': password_Incorrect_Msg})
+
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password(user.password,password):
+            session['user_id'] = user.id
+            return redirect('/')
+        else:
+            return render_template('login.html', error_msg='Wrong username or password')
+    else:
+        if 'user_id' in session:
+            return redirect('/')
+        return render_template('login.html')
+
+@app.route('/logout', methods=['POST','GET'])
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/list_rosters')
 def list_rosters():
-    rosters = Roster.query.all()
+    rosters = Roster.query.filter_by(user_id=session['user_id']).all()
     return render_template('list_rosters.html',rosters=rosters)
 
 @app.route('/list_students')
 def list_students():
-    students = Student.query.all()
+    students = (Student.query
+        .filter_by(user_id=session['user_id'])
+        .order_by(Student.first_name)
+        .all())
     return render_template('list_students.html', students=students, title='All students:')
 
 @app.route('/single_roster')
@@ -86,7 +118,7 @@ def add_student():
             error_msg = "Please fill out both name fields"
 
         if not error_msg:
-            new_Student = Student(first_name,last_name, phone, notes)
+            new_Student = Student(first_name,last_name, phone, notes,session['user_id'])
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
@@ -120,7 +152,7 @@ def add_roster():
         return render_template('add_roster.html', title='add roster')
     else:
         course_name = request.form['course_name']
-        new_roster = Roster(course_name)
+        new_roster = Roster(course_name,session['user_id'])
         db.session.add(new_roster)
         db.session.commit()
         return redirect('/single_roster?roster_id=' + str(new_roster.id))
@@ -161,7 +193,7 @@ def add_session():
             db.session.add(attendence)
 
         db.session.commit()
-        return redirect('/single_roster?roster_id=' + str(roster_id))
+        return redirect('/single_session?session_id=' + str(new_session.id))
 
 
 @app.route('/single_session')
@@ -193,7 +225,10 @@ def add_student_to_roster():
 
     if request.method == 'POST':
         student_ids = request.form.getlist('student_id')
-        students = Student.query.filter(Student.id.in_(student_ids)).all()
+        students = (Student.query
+            .filter(Student.id.in_(student_ids), Student.user_id == session['user_id'])
+            .order_by(Student.first_name)
+            .all())
 
         roster.students.extend(students)
         db.session.commit()
@@ -202,7 +237,10 @@ def add_student_to_roster():
 
     else:
         # gets all students who are not already in this class roster
-        new_students = Student.query.filter(~Student.rosters.contains(roster))
+        new_students = (Student.query
+            .filter(~Student.rosters.contains(roster), Student.user_id == session['user_id'])
+            .order_by(Student.first_name)
+            .all())
 
         return render_template('add_student_to_roster.html', students=new_students, roster=roster)
 
@@ -227,20 +265,23 @@ def update_attendences():
         else:
             if attendence.id in checkin_list:
                 if not attendence.checkin_time:
-                    attendence.checkin_time = pst_now
+                    attendence.checkin_time = get_current_time()
             else:
                 attendence.checkin_time = None
                 attendence.checkout_time = None
 
             if attendence.id in checkout_list:
                 if not attendence.checkout_time and attendence.checkin_time:
-                    attendence.checkout_time = pst_now
+                    attendence.checkout_time = get_current_time()
             else:
                 attendence.checkout_time = None
 
     db.session.commit()
     return redirect('/single_session?session_id='+str(session_id))
 
+
+#The secret key should be kept a secret when deployed. Meaning not on github
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RU'
 
 if __name__ == '__main__':
     app.run()

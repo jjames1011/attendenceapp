@@ -21,8 +21,6 @@ a:hover {
 /* Adjustments to navbar */
 
 .navbar {
-    padding-top: 1em;
-    padding-bottom: 1em;
     padding-left: 2.5em;
     margin-bottom: 1.5em;
 }
@@ -34,6 +32,8 @@ a:hover {
 
 a.navbar-brand {
     color: #fff !important;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 a.nav-link {
@@ -145,12 +145,27 @@ body {
 
 }
 
+label {
+    margin-top: 0.6rem;
+}
+
+
+label {
+    color: #6F7A7D;
+
+}
+
 /* adjustment to tables */
 
 .thead-light th {
     background-color: rgba(241, 143, 1, 0.2) !important;
     opacity: 50%;
 }
+
+tbody tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
 
 /*media queries */
 
@@ -161,4 +176,28 @@ body {
         margin-right: 2.5rem !important;
     }
 
+}
+
+@media (max-width: 768px) {
+    .attendance-table {
+        font-size: 0.9rem;
+    }
+
+}
+
+
+@media (max-width: 575px) {
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .attendance-table {
+        font-size: 0.8rem;
+    }
+
+    .table th,
+    .table td {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
 }

@@ -1,15 +1,16 @@
 from app import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30))
-    password = db.Column(db.String(50))
-    #Parent,Instructor, Moderator, or Admin
-    rank = db.Column(db.String(50))
+    email = db.Column(db.String(30))
+    password = db.Column(db.String(120))
+    rosters = db.relationship('Roster', backref='user')
+    students = db.relationship('Student', backref='user')
 
-    def __init__(self,username,password,rank):
-        self.username = username
+
+    def __init__(self,email,password):
+        self.email = email
         self.password = password
-        self.rank = rank
+
 
 
 association_table = db.Table('roster_student',
@@ -21,11 +22,13 @@ association_table = db.Table('roster_student',
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(80))
-    students = db.relationship('Student', secondary=association_table, backref='rosters')
-    sessions = db.relationship('Session', backref='roster')
+    students = db.relationship('Student', secondary=association_table, backref='rosters', order_by="Student.first_name")
+    sessions = db.relationship('Session', backref='roster', order_by="Session.name")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self,course_name):
+    def __init__(self,course_name,user_id):
         self.course_name = course_name
+        self.user_id = user_id
 
 
 class Student(db.Model):
@@ -34,13 +37,17 @@ class Student(db.Model):
     last_name = db.Column(db.String(80))
     phone = db.Column(db.String(80))
     notes = db.Column(db.String(250))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     attendences = db.relationship('Attendence', backref='student')
 
-    def __init__(self, first_name,last_name, phone, notes):
+
+
+    def __init__(self, first_name,last_name, phone, notes, user_id):
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone
         self.notes = notes
+        self.user_id = user_id
 
     def __repr__(self):
         return '<Student %r' % self.name

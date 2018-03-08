@@ -18,13 +18,13 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-        <a class="navbar-brand" href="{{ url_for('list_rosters')}}">Attendance App</a>
+        <a class="navbar-brand" href="{{ url_for('list_rosters')}}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="">Attendance App</a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mr-auto">
                 <a id="list_rosters" class="nav-item nav-link" href="{{ url_for('list_rosters')}}">Rosters <span class="sr-only">(current)</span></a>
                 <a id="list_students" class="nav-item nav-link" href="{{ url_for('list_students')}}">Students</a>
                 <a id="add_roster" class="nav-item nav-link" href="{{ url_for('add_roster')}}">Create a Roster</a>
-                <a id="add_student" class="nav-item nav-link" href="{{ url_for('add_student')}}">Create a Student</a>
+                <a id="add_student" class="nav-item nav-link float-right" href="{{ url_for('add_student')}}">Create a Student</a> {% if session['user_id']%}<a href='/logout' class='nav-item nav-link'>Logout</a>{% endif %}
 
             </div>
         </div>
@@ -52,8 +52,57 @@
         $(document).ready(function() {
             $("#{{request.endpoint}}").addClass("active");
         })
+        
+        $('input[name="phone"]')
+            .attr('maxlength', 14)
+            .keydown(function (e) {
+                var key = e.which || e.charCode || e.keyCode || 0;
+                $phone = $(this);
 
+                // Don't let them remove the starting '('
+                if ($phone.val().length === 1 && (key === 8 || key === 46)) {
+                    $phone.val('('); 
+                    return false;
+                } 
+                // Reset if they highlight and type over first char.
+                else if ($phone.val().charAt(0) !== '(') {
+                    $phone.val('('+String.fromCharCode(e.keyCode)+''); 
+                }
+
+                // Auto-format- do not expose the mask as the user begins to type
+                if (key !== 8 && key !== 9) {
+                    if ($phone.val().length === 4) {
+                        $phone.val($phone.val() + ')');
+                    }
+                    if ($phone.val().length === 5) {
+                        $phone.val($phone.val() + ' ');
+                    }			
+                    if ($phone.val().length === 9) {
+                        $phone.val($phone.val() + '-');
+                    }
+                }
+
+                // Allow numeric (and tab, backspace, delete) keys only
+                return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));	
+            }).bind('focus click', function () {
+                $phone = $(this);
+                
+                if ($phone.val().length === 0) {
+                    $phone.val('(');
+                } else {
+                    var val = $phone.val();
+                    $phone.val('').val(val); // Ensure cursor remains at the end
+                }
+            }).blur(function () {
+                $phone = $(this);
+                
+                if ($phone.val() === '(') {
+                    $phone.val('');
+                }
+            });
     </script>
+
+    {% block script %} {% endblock %}
 </body>
 
 </html>

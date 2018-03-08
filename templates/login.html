@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>Login!</h1>
+
+<form action='/login' method='post'>
+    <label>Email:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='text' name='email'>
+    </div>
+    <label>Password:</label>
+    <div class=" px-0  col-10 col-md-4">
+        <input class="form-control" type='password' name='password'>
+    </div>
+    <p>{{error_msg}}</p>
+    <input type='submit' class="btn btn-outline-secondary" value='Submit'>
+</form>
+
+<h4 class='mt-2'>Don't have an account? Signup <a href='/signup'>here</a></h4> {% endblock %}
