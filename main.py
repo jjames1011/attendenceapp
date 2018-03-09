@@ -1,16 +1,16 @@
 from flask import request, redirect, render_template, session, flash, session
 from app import app, db
 from models import *
-import datetime
+from datetime import datetime
 import pytz
 from hash_pwd import hash_password, check_password
 
 endpoints_without_login = ['login','signup','static']
 
 def get_current_time():
-    utc_now = datetime.datetime.now()
-    pst_now = utc_now.astimezone(pytz.timezone('America/Los_Angeles'))
-    return pst_now
+    tz = pytz.timezone('America/Los_Angeles')
+    now = datetime.now(tz)
+    return now
 
 @app.before_request
 def require_login(): #Control for endpoint access for a non logged in user
