@@ -166,6 +166,10 @@ tbody tr:last-child {
     border-bottom: 1px solid #dee2e6;
 }
 
+input[type=checkbox] {
+    transform: scale(1.8);
+}
+
 
 /*media queries */
 
@@ -199,5 +203,9 @@ tbody tr:last-child {
     .table td {
         padding-right: 0.5rem;
         padding-left: 0.5rem;
+    }
+
+    .table .td-add-space {
+        padding-right: 1rem;
     }
 }
