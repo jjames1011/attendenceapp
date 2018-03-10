@@ -9,7 +9,7 @@ endpoints_without_login = ['login','signup','static']
 
 def get_current_time():
     tz = pytz.timezone('America/Los_Angeles')
-    now = datetime.now(tz)
+    now = datetime.now()
     return now
 
 @app.before_request
