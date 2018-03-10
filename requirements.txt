@@ -13,4 +13,5 @@ PyMySQL==0.7.11
 pytz==2017.3
 six==1.11.0
 SQLAlchemy==1.2.1
+tzlocal==1.5.1
 Werkzeug==0.14.1
