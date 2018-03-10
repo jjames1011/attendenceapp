@@ -9,7 +9,10 @@ endpoints_without_login = ['login','signup','static']
 
 def get_current_time():
     tz = pytz.timezone('America/Los_Angeles')
-    now = datetime.now(tz)
+    now = datetime.now()
+
+  
+
     return now
 
 @app.before_request
@@ -179,9 +182,9 @@ def add_session():
             return no_roster_message
 
         name = "Session " + str(len(roster.sessions) + 1)
-        date = datetime.datetime.strptime(request.form['session_date'], '%Y-%m-%d')
-        start = datetime.datetime.strptime(request.form['session_start'], '%H:%M')
-        end = datetime.datetime.strptime(request.form['session_end'], '%H:%M')
+        date = datetime.strptime(request.form['session_date'], '%Y-%m-%d')
+        start = datetime.strptime(request.form['session_start'], '%H:%M')
+        end = datetime.strptime(request.form['session_end'], '%H:%M')
         new_session = Session(name, date, start, end)
         roster.sessions.append(new_session)
         db.session.flush()
