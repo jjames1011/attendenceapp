@@ -11,7 +11,7 @@ def get_current_time():
     tz = pytz.timezone('America/Los_Angeles')
     now = datetime.now()
 
-  
+
 
     return now
 
@@ -202,12 +202,12 @@ def add_session():
 @app.route('/single_session')
 def single_session():
     session_id = request.args.get('session_id')
-    session = Session.query.filter_by(id=session_id).first()
+    single_session = Session.query.filter_by(id=session_id).first()
 
     if not session:
         return 'No session associated with this id'
 
-    return render_template('single_session.html', session=session)
+    return render_template('single_session.html', single_session=single_session)
 
 
 @app.route('/student_profile')
