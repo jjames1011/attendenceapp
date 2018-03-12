@@ -1,55 +1,55 @@
 {% extends "base.html" %} {% block content %}
 
-<h1><a href='/single_roster?roster_id={{session.roster.id}}'>{{session.roster.course_name}}</a> - {{session.name}}:</h1>
+<h1><a href='/single_roster?roster_id={{single_session.roster.id}}'>{{single_session.roster.course_name}}</a> - {{single_session.name}}:</h1>
 <form action="/update_attendences" method="post">
-    <input type="hidden" name="session_id" value={{session.id}}>
-    <table class="table table-striped">
-        <thead class="thead-light">
-            <tr>
-                <th>Student</th>
-                <th>Absent</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for attendence in session.attendences %}
-            <tr>
-                <div class="form-check form-check-inline">
-                    <td class="td-add-space"><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.last_name + ', ' + attendence.student.first_name}}</a>
+  <input type="hidden" name="session_id" value={{single_session.id}}>
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th>Student</th>
+        <th>Absent</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for attendence in single_session.attendences %}
+      <tr>
+        <div class="form-check form-check-inline">
+          <td class="td-add-space"><a href='/student_profile?student_id={{attendence.student.id}}'>{{attendence.student.last_name + ', ' + attendence.student.first_name}}</a>
 
-                    </td>
-                </div>
-                <td class="align-middle">
-                    <div class="form-check form-check-inline">
-                        <input type='checkbox' name='absent' value='{{attendence.id}}' {% if attendence.checkin_time %}disabled{% endif %}{% if attendence.absent %}disabled checked {% endif %}>
-                    </div>
-                </td>
-                <td class="align-middle">
-                    <div class="form-check form-check-inline">
-                        <input type="checkbox" id="checkin-{{attendence.id}}" name="checkin" value="{{attendence.id}}" {% if attendence.absent %}disabled{% endif %}{% if attendence.checkin_time %}checked {% endif %}>
-                    </div>
-                    <label>
+          </td>
+        </div>
+        <td class="align-middle">
+          <div class="form-check form-check-inline">
+            <input type='checkbox' name='absent' value='{{attendence.id}}' {% if attendence.checkin_time %}disabled{% endif %}{% if attendence.absent %}disabled checked {% endif %}>
+          </div>
+        </td>
+        <td class="align-middle">
+          <div class="form-check form-check-inline">
+            <input type="checkbox" id="checkin-{{attendence.id}}" name="checkin" value="{{attendence.id}}" {% if attendence.absent %}disabled{% endif %}{% if attendence.checkin_time %}checked {% endif %}>
+          </div>
+          <label>
           {% if attendence.checkin_time %}
           {{ attendence.checkin_time.strftime('%I:%M %p') }}
           {% endif %}
         </label>
-                </td>
-                <td class="align-middle">
-                    <div class="form-check form-check-inline">
-                        <input type="checkbox" id="checkout-{{attendence.id}}" name="checkout" value="{{attendence.id}}" {% if not attendence.checkin_time %}disabled="disabled" {% endif %}{%if attendence.checkout_time %}checked{% endif %}>
-                    </div>
-                    <label>
+        </td>
+        <td class="align-middle">
+          <div class="form-check form-check-inline">
+            <input type="checkbox" id="checkout-{{attendence.id}}" name="checkout" value="{{attendence.id}}" {% if not attendence.checkin_time %}disabled="disabled" {% endif %}{%if attendence.checkout_time %}checked{% endif %}>
+          </div>
+          <label>
           {% if attendence.checkout_time %}
           {{ attendence.checkout_time.strftime('%I:%M %p') }}
           {% endif %}
         </label>
 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <input type="submit" class="btn btn-outline-secondary" value="Update Attendance" />&nbsp; &nbsp; &nbsp;<a href="/single_roster?roster_id={{session.roster.id}}" class="btn btn-outline-info">Return to Roster Info</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <input type="submit" class="btn btn-outline-secondary" value="Update Attendance" />&nbsp; &nbsp; &nbsp;<a href="/single_roster?roster_id={{single_session.roster.id}}" class="btn btn-outline-info">Return to Roster Info</a>
 </form>
 {% endblock %}

@@ -1,8 +1,28 @@
 /* General styles */
 
+h1,
+h2,
+h3 {
+
+    margin-bottom: 1rem;
+}
+
 h2,
 h3 {
     margin-top: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 2.3rem;
 }
 
 .btn {
@@ -34,6 +54,9 @@ a.navbar-brand {
     color: #fff !important;
     padding-top: 0;
     padding-bottom: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+
 }
 
 a.nav-link {
@@ -145,15 +168,12 @@ body {
 
 }
 
+
 label {
     margin-top: 0.6rem;
-}
-
-
-label {
     color: #6F7A7D;
-
 }
+
 
 /* adjustment to tables */
 
@@ -208,4 +228,11 @@ input[type=checkbox] {
     .table .td-add-space {
         padding-right: 1rem;
     }
+
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
 }
