@@ -76,14 +76,17 @@ def logout():
 
 @app.route('/list_rosters')
 def list_rosters():
-    rosters = Roster.query.filter_by(user_id=session['user_id']).all()
+    rosters = (Roster.query
+        .filter_by(user_id=session['user_id'])
+        .order_by(Roster.course_name)
+        .all())
     return render_template('list_rosters.html',rosters=rosters)
 
 @app.route('/list_students')
 def list_students():
     students = (Student.query
         .filter_by(user_id=session['user_id'])
-        .order_by(Student.first_name)
+        .order_by(Student.last_name)
         .all())
     return render_template('list_students.html', students=students, title='All students:')
 
