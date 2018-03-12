@@ -1,44 +1,44 @@
 {% extends "base.html" %} {% block content%}
 <div class='col-md-6'>
 
-<h1>Add Students to {{ roster.course_name }}</h1>
+    <h1>Add Students to {{ roster.course_name }}</h1>
 
-<form action="/add_student_to_roster?roster_id={{roster.id}}" method="post">
+    <form action="/add_student_to_roster?roster_id={{roster.id}}" method="post">
 
-    {% if students %}
-    <h2>All students:</h2> 
-    <table class="table table-striped">
-        <thead class="thead-light">
-        <tr>
-            <th scope="col">Student</th>
-            <th scope="col">Student Info</th>
-        </tr>
-    </thead>
-        
-        <tbody>
-            {% for student in students %}
-            <tr>
-    
-        <td class="align-middle"><label><input type="checkbox" name="student_id" value="{{ student.id }}">
+        {% if students %}
+        <h2>All students:</h2>
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Student</th>
+                    <th scope="col">Student Info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+
+                    <td class="align-middle"><label><input type="checkbox" name="student_id" value="{{ student.id }}">
             <span class="pl-3">{{ student.last_name + ', ' + student.first_name }}</span></label></td>
-        <td class="align-middle"><a  href='/student_profile?student_id={{student.id}}'>{{ student.last_name + ', ' + student.first_name }}
-            </a></td> 
-            </tr>
-             {% endfor %}
-        </tbody>
-        
-    </table>
-   
+                    <td class="align-middle"><a href='/student_profile?student_id={{student.id}}'>Student Profile
+            </a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
 
-    <br><input class="btn btn-outline-secondary" type="submit" value="Add students to roster" />&nbsp; &nbsp; &nbsp;
-    <a href="/add_student" class="btn btn-outline-info">Create New Student</a>
+        </table>
 
-</form>
+
+        <br><input class="btn btn-outline-secondary" type="submit" value="Add students to roster" />&nbsp; &nbsp; &nbsp;
+        <a href="/add_student" class="btn btn-outline-info">Create New Student</a>
+
+    </form>
 </div>
 {% elif roster.students %}
 <p>All students have already been added to this roster. Click <a href='/add_student'>here</a> to create a new student</p>
 
 {% else %}
 <p>No students have been added yet, click <a href='/add_student'>here</a> to add a new student</p>
-    
+
 {% endif %}{% endblock %}
