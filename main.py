@@ -113,9 +113,9 @@ def add_student():
         error_msg = ''
 
         #Checks if there is a student in the database with the same first and last names
-        duplicate_student = Student.query.filter_by(first_name=first_name,last_name=last_name).first()
+        duplicate_student = Student.query.filter_by(user_id=session['user_id'],first_name=first_name,last_name=last_name).first()
         if duplicate_student:
-            error_msg = 'Oops It looks like there is already a student with that name.'
+            error_msg = 'Oops! It looks like there is already a student with that name.'
 
         if not first_name or not last_name:
             error_msg = "Please fill out both name fields"
@@ -202,12 +202,12 @@ def add_session():
 @app.route('/single_session')
 def single_session():
     session_id = request.args.get('session_id')
-    single_session = Session.query.filter_by(id=session_id).first()
+    session = Session.query.filter_by(id=session_id).first()
 
     if not session:
         return 'No session associated with this id'
 
-    return render_template('single_session.html', single_session=single_session)
+    return render_template('single_session.html', single_session=session)
 
 
 @app.route('/student_profile')
