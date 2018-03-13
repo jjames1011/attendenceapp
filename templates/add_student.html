@@ -19,8 +19,31 @@
     <div class=" px-0  col-10 col-md-3">
         <textarea name="notes" rows="10" columns="30" style="resize:auto"></textarea><br>
     </div>
-    <input type="submit" class="btn btn-outline-secondary" value="submit" />
+    
+    <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>Roster</th>
+            <th>Add to roster?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for roster in rosters %}
+          <tr>
+            <div class="form-check form-check-inline">
+              <td class="td-add-space"><a href='/single_roster?roster_id={{roster.id}}'>{{roster.course_name}}</a></td>
+            </div>
+            <td class="align-middle">
+              <div class="form-check form-check-inline">
+                <input type='checkbox' name='rosters' value='{{roster.id}}'/>
+              </div>
+            </td>            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
+      <input type="submit" class="btn btn-outline-secondary" value="submit" />
 </form>
 
 {% endblock %}

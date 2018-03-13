@@ -113,6 +113,7 @@ def add_student():
         last_name = request.form['last_name']
         notes = request.form['notes']
         phone = request.form['phone']
+        roster_ids = [int(id) for id in request.form.getlist('rosters')]
         error_msg = ''
 
         #Checks if there is a student in the database with the same first and last names
@@ -125,13 +126,16 @@ def add_student():
 
         if not error_msg:
             new_Student = Student(first_name,last_name, phone, notes,session['user_id'])
+            rosters = Roster.query.filter(Roster.id.in_(roster_ids)).all()
+            new_Student.rosters.extend(rosters)
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
         else:
             return render_template('add_student.html', error_msg=error_msg)
-
-    return render_template('add_student.html')
+    else:
+        rosters = Roster.query.all()
+        return render_template('add_student.html', rosters=rosters)
 
 @app.route('/update_student', methods=['POST','GET'])
 def update_student():
