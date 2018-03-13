@@ -21,6 +21,30 @@
     <div class=" px-0  col-10 col-md-3">
         <input type='text' class="form-control" name="notes" value='{{student.notes}}' />
     </div>
+
+    <table class="table table-striped attendance-table table-responsive">
+        <thead class="thead-light">
+          <tr>
+            <th>Roster</th>
+            <th>Add to roster?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for roster in rosters %}
+          <tr>
+            <div class="form-check form-check-inline">
+              <td class="td-add-space"><a href='/single_roster?roster_id={{roster.id}}'>{{roster.course_name}}</a></td>
+            </div>
+            <td class="align-middle">
+              <div class="form-check form-check-inline">
+                <input type='checkbox' name='rosters' value='{{roster.id}}'  {% if roster in student.rosters %}checked{% endif %}/>
+              </div>
+            </td>            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
     <input type="submit" class="btn btn-outline-secondary" value="submit" />
 
 </form>
