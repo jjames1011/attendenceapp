@@ -81,14 +81,17 @@ def user_guide():
 
 @app.route('/list_rosters')
 def list_rosters():
-    rosters = Roster.query.filter_by(user_id=session['user_id']).all()
+    rosters = (Roster.query
+        .filter_by(user_id=session['user_id'])
+        .order_by(Roster.course_name)
+        .all())
     return render_template('list_rosters.html',rosters=rosters)
 
 @app.route('/list_students')
 def list_students():
     students = (Student.query
         .filter_by(user_id=session['user_id'])
-        .order_by(Student.first_name)
+        .order_by(Student.last_name)
         .all())
     return render_template('list_students.html', students=students, title='All students:')
 
@@ -115,6 +118,7 @@ def add_student():
         last_name = request.form['last_name']
         notes = request.form['notes']
         phone = request.form['phone']
+        roster_ids = [int(id) for id in request.form.getlist('rosters')]
         error_msg = ''
 
         #Checks if there is a student in the database with the same first and last names
@@ -127,20 +131,24 @@ def add_student():
 
         if not error_msg:
             new_Student = Student(first_name,last_name, phone, notes,session['user_id'])
+            rosters = Roster.query.filter(Roster.id.in_(roster_ids)).all()
+            new_Student.rosters.extend(rosters)
             db.session.add(new_Student)
             db.session.commit()
             return redirect('/student_profile?student_id='+ str(new_Student.id))
         else:
             return render_template('add_student.html', error_msg=error_msg)
-
-    return render_template('add_student.html')
+    else:
+        rosters = Roster.query.all()
+        return render_template('add_student.html', rosters=rosters)
 
 @app.route('/update_student', methods=['POST','GET'])
 def update_student():
     if request.method == 'GET':
         student_id = request.args.get('student_id')
         student = Student.query.filter_by(id=student_id).first()
-        return render_template('edit_profile.html', title='update student', student=student)
+        rosters = Roster.query.all()
+        return render_template('edit_profile.html', title='update student', student=student, rosters=rosters)
     else:
         student_id = request.args.get('student_id')
         new_notes = request.form['notes']
@@ -150,6 +158,11 @@ def update_student():
         student.last_name = request.form['last_name']
         student.notes = new_notes
         student.phone = new_phone
+
+        roster_ids = [int(id) for id in request.form.getlist('rosters')]
+        rosters = Roster.query.filter(Roster.id.in_(roster_ids)).all()
+        student.rosters = rosters
+
         db.session.commit()
         return redirect('/student_profile?student_id=' + str(student_id))
 
@@ -219,12 +232,13 @@ def single_session():
 def single_student():
     '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/student_profile?student_id=1'''
     student_Id = request.args.get('student_id')
-    student = Student.query.filter_by(id=student_Id).first()
+    student = Student.query.filter_by(id=student_Id).first()    
     if not student:
         errorMSG = 'There is no student in the database with that id'
         return render_template('student_profile.html', errorMSG=errorMSG, title='Student not found')
     title = student.last_name + ', ' + student.first_name
-    return render_template('student_profile.html', student=student, title=title)
+    rosters = Roster.query.all()
+    return render_template('student_profile.html', student=student, title=title, rosters=rosters)
 
 @app.route('/add_student_to_roster', methods=['POST', 'GET'])
 def add_student_to_roster():
