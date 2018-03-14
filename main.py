@@ -139,7 +139,7 @@ def add_student():
         else:
             return render_template('add_student.html', error_msg=error_msg)
     else:
-        rosters = Roster.query.all()
+        rosters = Roster.query.filter_by(user_id=session['user_id']).order_by(Roster.course_name).all()
         return render_template('add_student.html', rosters=rosters)
 
 @app.route('/update_student', methods=['POST','GET'])
@@ -147,7 +147,7 @@ def update_student():
     if request.method == 'GET':
         student_id = request.args.get('student_id')
         student = Student.query.filter_by(id=student_id).first()
-        rosters = Roster.query.all()
+        rosters = Roster.query.filter_by(user_id=session['user_id']).order_by(Roster.course_name).all()
         return render_template('edit_profile.html', title='update student', student=student, rosters=rosters)
     else:
         student_id = request.args.get('student_id')
@@ -232,12 +232,12 @@ def single_session():
 def single_student():
     '''When making the request, be sure to add a roster id in the url in a query string eg: localhost:5000/student_profile?student_id=1'''
     student_Id = request.args.get('student_id')
-    student = Student.query.filter_by(id=student_Id).first()    
+    student = Student.query.filter_by(id=student_Id).first()
     if not student:
         errorMSG = 'There is no student in the database with that id'
         return render_template('student_profile.html', errorMSG=errorMSG, title='Student not found')
     title = student.last_name + ', ' + student.first_name
-    rosters = Roster.query.all()
+    rosters = Roster.query.filter_by(user_id=session['user_id']).order_by(Roster.course_name).all()
     return render_template('student_profile.html', student=student, title=title, rosters=rosters)
 
 @app.route('/add_student_to_roster', methods=['POST', 'GET'])

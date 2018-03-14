@@ -28,6 +28,7 @@
                 <a id="add_student" class="nav-item nav-link float-right" href="{{ url_for('add_student')}}">Create a Student</a>
                 <a id="user_guide" class="nav-item nav-link" href="{{url_for('user_guide')}}">User Guide</a>
                 {% if session['user_id']%}<a href='/logout' class='nav-item nav-link'>Logout</a>{% endif %}
+                {% if not session['user_id']%}<a href='/login' class='nav-item nav-link'>Login</a>{% endif %}
 
             </div>
         </div>
