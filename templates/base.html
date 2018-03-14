@@ -25,7 +25,9 @@
                 <a id="list_rosters" class="nav-item nav-link" href="{{ url_for('list_rosters')}}">Rosters <span class="sr-only">(current)</span></a>
                 <a id="list_students" class="nav-item nav-link" href="{{ url_for('list_students')}}">Students</a>
                 <a id="add_roster" class="nav-item nav-link" href="{{ url_for('add_roster')}}">Create a Roster</a>
-                <a id="add_student" class="nav-item nav-link float-right" href="{{ url_for('add_student')}}">Create a Student</a> {% if session['user_id']%}<a href='/logout' class='nav-item nav-link'>Logout</a>{% endif %}
+                <a id="add_student" class="nav-item nav-link float-right" href="{{ url_for('add_student')}}">Create a Student</a>
+                <a id="user_guide" class="nav-item nav-link" href="{{url_for('user_guide')}}">User Guide</a>
+                {% if session['user_id']%}<a href='/logout' class='nav-item nav-link'>Logout</a>{% endif %}
 
             </div>
         </div>

@@ -5,7 +5,7 @@ from datetime import datetime
 import pytz
 from hash_pwd import hash_password, check_password
 
-endpoints_without_login = ['login','signup','static']
+endpoints_without_login = ['login','signup','user_guide','static']
 
 def get_current_time():
     tz = pytz.timezone('America/Los_Angeles')
@@ -73,6 +73,11 @@ def login():
 def logout():
     session.clear()
     return redirect('/')
+
+
+@app.route('/user_guide')
+def user_guide():
+    return render_template('user_guide.html')
 
 @app.route('/list_rosters')
 def list_rosters():
