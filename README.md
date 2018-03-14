@@ -8,7 +8,7 @@ I am an instructor for an after school program, grades k-8. One part of the job 
 * **Time recorder** - Time automatically recorded when student is checked in and checked out.  
 * **Link to phone** - Quick dial to parent’s phones.  
 * **Absent option** – Students marked as absent.
-* **Attendance history** - See which sessions student has attended.
+* **Attendance history** - See which sessions each student has attended.
 
 ## Future Enhancement
 * **Photo upload** - Option to add parents’ photographs, for better security. 
@@ -31,7 +31,7 @@ I am an instructor for an after school program, grades k-8. One part of the job 
 ### How to get this app running on your machine
 1.  Install Python 3.
 2.  Clone this respository.   
-        ``` 
+        ```sh 
         git clone https://github.com/jjames1011/attendenceapp.git
         ```
 3.  Install Flask -  http://flask.pocoo.org/docs/0.12/installation 
@@ -39,21 +39,21 @@ I am an instructor for an after school program, grades k-8. One part of the job 
 4.  Install MAMP - https://www.mamp.info/en/
 6.  Create a virtual environment.  Refer to [miniconda](https://conda.io/miniconda.html).
 7.  Move in to the respository and start your virtual environment.  
-        ``` 
+        ```sh
         $ source activate name_of_your_enviroment 
         ``` 
 8.  Install pymysql inside your virtual environment.
-        ``` 
+        ```sh 
         $ conda install pymysql
         ```
 9.  Install pytz inside your virtual environment - https://pypi.python.org/pypi/pytz
 10. Start MAMP.
-11. To setup the database.
-        ``` 
+11. To set up the database.  
+        ```sh 
         $ python init.py 
         ```
-12. Start your local server.
-        ```
+12. Start your local server.  
+        ```sh
         $ python main.py 
         ```
 13. You will get a message showing the address where you will be able view the website.
