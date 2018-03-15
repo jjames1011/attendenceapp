@@ -249,7 +249,7 @@ def add_student_to_roster():
         student_ids = request.form.getlist('student_id')
         students = (Student.query
             .filter(Student.id.in_(student_ids), Student.user_id == session['user_id'])
-            .order_by(Student.first_name)
+            .order_by(Student.last_name)
             .all())
 
         roster.students.extend(students)
@@ -261,7 +261,7 @@ def add_student_to_roster():
         # gets all students who are not already in this class roster
         new_students = (Student.query
             .filter(~Student.rosters.contains(roster), Student.user_id == session['user_id'])
-            .order_by(Student.first_name)
+            .order_by(Student.last_name)
             .all())
 
         return render_template('add_student_to_roster.html', students=new_students, roster=roster)
